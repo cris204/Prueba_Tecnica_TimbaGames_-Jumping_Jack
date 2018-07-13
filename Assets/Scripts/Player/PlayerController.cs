@@ -129,6 +129,10 @@ public class PlayerController : MonoBehaviour {
                     fallingDown = true;
                     rb.velocity = Vector2.zero;
                 }
+                else
+                {
+                   GameManager.Instance.GetNewHole();
+                }
 
 
             }

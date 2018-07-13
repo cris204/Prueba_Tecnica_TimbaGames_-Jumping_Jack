@@ -50,4 +50,9 @@ public class GameManager : MonoBehaviour {
             HolePool.Instance.GetHoles();
         }
 	}
+
+    public void GetNewHole()
+    {
+        HolePool.Instance.GetHoles();
+    }
 }
