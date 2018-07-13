@@ -12,7 +12,7 @@ public class GroundBehaviour : MonoBehaviour {
 
 	void Awake () {
 
-        rb.GetComponent<Rigidbody2D>();
+        rb=GetComponent<Rigidbody2D>();
         speedVector = Vector2.right * horizontalSpeed;
 
     }

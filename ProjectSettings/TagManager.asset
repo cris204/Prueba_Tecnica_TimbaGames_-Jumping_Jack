@@ -6,6 +6,8 @@ TagManager:
   tags:
   - LateralBorder
   - Hole
+  - Hole_Up
+  - Hole_Down
   layers:
   - Default
   - TransparentFX

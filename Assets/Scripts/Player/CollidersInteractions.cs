@@ -6,10 +6,13 @@ public class CollidersInteractions : MonoBehaviour
 {
 
     [Header("General")]
-    public BoxCollider2D playerCollider;
+    private BoxCollider2D playerCollider;
+    public bool jumpingToPlatform;
+    public bool fallDownPlatform;
 
     [Header("Borders")]
     private Vector2 destination;
+
 
     private void Awake()
     {
@@ -26,9 +29,17 @@ public class CollidersInteractions : MonoBehaviour
 
         }
 
-        if (other.CompareTag("Hole"))
-        {
+        if (other.CompareTag("Hole_Up")){
             playerCollider.isTrigger = true;
+            fallDownPlatform = true;
+        }
+
+        if (other.CompareTag("Hole_Down"))
+        {
+
+                playerCollider.isTrigger = true;
+                jumpingToPlatform = true;
+
             //StartCoroutine(WaitToActiveCollider());
         }
     }
@@ -36,17 +47,41 @@ public class CollidersInteractions : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Hole"))
-        {
+        if (other.CompareTag("Hole_Up")){
             playerCollider.isTrigger = false;
         }
-    }
-    #region corroutine
 
-    IEnumerator WaitToActiveCollider()
+        if (other.CompareTag("Hole_Down"))
+        {
+            jumpingToPlatform = false;
+            playerCollider.isTrigger = false;
+        }
+
+    }
+    #region GetsAndSets
+    [SerializeField]
+    public bool JumpToPlatform
     {
-        yield return new WaitForSeconds(0.1f);
-        playerCollider.enabled = true;
+        get
+        {
+            return jumpingToPlatform;
+        }
+        set
+        {
+            jumpingToPlatform = value;
+        }
+    }
+
+    public bool FallDownPlatform
+    {
+        get
+        {
+            return fallDownPlatform;
+        }
+        set
+        {
+            fallDownPlatform = value;
+        }
     }
 
     #endregion

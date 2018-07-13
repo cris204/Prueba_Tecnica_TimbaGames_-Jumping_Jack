@@ -9,6 +9,10 @@ public class Movement : MonoBehaviour {
     [Header("General")]
     [SerializeField]
     private Rigidbody2D rb;
+    [SerializeField]
+    private bool fallingDown;
+    [SerializeField]
+    private CollidersInteractions colliderInteractions;
 
 
     [Header("Horizonatl Move")]
@@ -16,6 +20,7 @@ public class Movement : MonoBehaviour {
     float h;
     [SerializeField]
     private float speed;
+    [SerializeField]
     private bool canHorizontalMove;
 
     [Header("Inputs")]
@@ -33,6 +38,7 @@ public class Movement : MonoBehaviour {
     private float jumpSpeed;
     [SerializeField]
     private float distance;
+    [SerializeField]
     private bool canJump;
     [SerializeField]
     private LayerMask layer;    
@@ -42,10 +48,12 @@ public class Movement : MonoBehaviour {
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        colliderInteractions = GetComponent<CollidersInteractions>();
     }
 
     private void Start()
     {
+        
         canHorizontalMove = true;
         canJump = true;
     }
@@ -58,17 +66,19 @@ public class Movement : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        hit = Physics2D.Raycast(transform.position, Vector2.down, distance,layer);
+        hit = Physics2D.Raycast(transform.position, Vector2.down, distance, layer);
+
         Move();
         Jump();
     }
 
     void Move()
     {
-        speedVector.x = speed * h * Time.deltaTime;
-        speedVector.y = 0;
-        if ( h != 0 && canHorizontalMove)
+
+        if ( h != 0 && canHorizontalMove && !fallingDown)
         {
+            speedVector.x = speed * h * Time.deltaTime;
+            speedVector.y = 0;
             rb.velocity = speedVector;
         }
     }
@@ -80,11 +90,11 @@ public class Movement : MonoBehaviour {
             canJump = true;
             canHorizontalMove = true;
             Time.timeScale = 1;
-            Debug.Log(hit.transform.name);
         }
         else
         {
             canJump = false;
+            canHorizontalMove = false;
         }
 
         Debug.DrawRay(transform.position, Vector2.down * distance);
@@ -102,14 +112,27 @@ public class Movement : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Hole"))
+        if (other.CompareTag("Hole_Up"))
         {
-            speedVector.x = 0;
-            speedVector.y = -jumpSpeed * Time.deltaTime;
-            rb.velocity = speedVector;
+            if (!colliderInteractions.JumpToPlatform)
+            {
+                Debug.Log("dep");
+                fallingDown = true;
+                canHorizontalMove = false;
+                canJump = false;
+                rb.velocity = Vector2.zero;
+            }
         }
     }
-    
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Hole_Down"))
+        {
+            fallingDown = false;
+        }
+    }
+
     #region Coroutines
     IEnumerator WaitToJump()
     {
