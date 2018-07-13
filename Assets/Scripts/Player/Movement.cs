@@ -65,10 +65,11 @@ public class Movement : MonoBehaviour {
 
     void Move()
     {
-      //  speedVector = rb.velocity * (speed * h * Time.deltaTime);
+        speedVector.x = speed * h * Time.deltaTime;
+        speedVector.y = 0;
         if ( h != 0 && canHorizontalMove)
         {
-            rb.velocity = Vector2.right * (speed*h*Time.deltaTime);
+            rb.velocity = speedVector;
         }
     }
 
@@ -88,15 +89,27 @@ public class Movement : MonoBehaviour {
 
         Debug.DrawRay(transform.position, Vector2.down * distance);
 
-        if (Input.GetButtonDown(jumpInput)&&canJump)
+        if (Input.GetButtonDown(jumpInput) && canJump)
         {
             Time.timeScale = 0.5f;
             canJump = false;
             canHorizontalMove = false;
-            rb.velocity = Vector2.up * (speed * 1 * Time.deltaTime);
+            speedVector.x = 0;
+            speedVector.y = jumpSpeed * Time.deltaTime;
+            rb.velocity = speedVector;
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Hole"))
+        {
+            speedVector.x = 0;
+            speedVector.y = -jumpSpeed * Time.deltaTime;
+            rb.velocity = speedVector;
+        }
+    }
+    
     #region Coroutines
     IEnumerator WaitToJump()
     {
