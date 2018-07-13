@@ -21,7 +21,7 @@ public class CollidersInteractions : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("LateralBorder"))
+        if (other.CompareTag("Lateral_Border"))
         {
             destination.x = other.transform.localPosition.x;
             destination.y = transform.position.y;

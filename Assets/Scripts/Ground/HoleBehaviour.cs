@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GroundBehaviour : MonoBehaviour {
+public class HoleBehaviour : MonoBehaviour {
 
     [SerializeField]
     private Rigidbody2D rb;
@@ -21,4 +21,12 @@ public class GroundBehaviour : MonoBehaviour {
     void FixedUpdate() {
         rb.velocity = speedVector*Time.deltaTime;	
 	}
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Lateral_Border"))
+        {
+            HolePool.Instance.DisableHole(this.gameObject);
+        }
+    }
 }

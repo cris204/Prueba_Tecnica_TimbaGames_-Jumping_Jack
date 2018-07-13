@@ -116,6 +116,7 @@ public class Movement : MonoBehaviour {
         {
             if (!colliderInteractions.JumpToPlatform)
             {
+                Time.timeScale = 0.5f;
                 Debug.Log("dep");
                 fallingDown = true;
                 canHorizontalMove = false;

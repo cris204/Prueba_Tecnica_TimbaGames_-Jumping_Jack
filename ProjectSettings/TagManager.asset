@@ -4,10 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - LateralBorder
   - Hole
   - Hole_Up
   - Hole_Down
+  - Up_Border
+  - Lateral_Border
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - Hole
   - Player
   - Invulnerability
-  - 
+  - Border
   - 
   - 
   - 
