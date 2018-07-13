@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movement : MonoBehaviour {
+public class PlayerController : MonoBehaviour {
 
     #region Variables
     public float timeSpeed;
@@ -40,6 +40,8 @@ public class Movement : MonoBehaviour {
     private float distance;
     [SerializeField]
     private bool canJump;
+    [SerializeField]
+    private bool isJumping;
     [SerializeField]
     private LayerMask layer;    
 
@@ -90,6 +92,7 @@ public class Movement : MonoBehaviour {
             canJump = true;
             canHorizontalMove = true;
             Time.timeScale = 1;
+            isJumping = false;
         }
         else
         {
@@ -101,6 +104,7 @@ public class Movement : MonoBehaviour {
 
         if (Input.GetButtonDown(jumpInput) && canJump)
         {
+            isJumping = true;
             Time.timeScale = 0.5f;
             canJump = false;
             canHorizontalMove = false;
@@ -112,23 +116,28 @@ public class Movement : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Hole_Up"))
+        if (other.CompareTag("Hole"))
         {
             if (!colliderInteractions.JumpToPlatform)
             {
                 Time.timeScale = 0.5f;
-                Debug.Log("dep");
-                fallingDown = true;
                 canHorizontalMove = false;
                 canJump = false;
-                rb.velocity = Vector2.zero;
+
+                if (!isJumping)
+                {
+                    fallingDown = true;
+                    rb.velocity = Vector2.zero;
+                }
+
+
             }
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Hole_Down"))
+        if (other.CompareTag("Hole"))
         {
             fallingDown = false;
         }

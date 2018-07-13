@@ -9,6 +9,9 @@ TagManager:
   - Hole_Down
   - Up_Border
   - Lateral_Border
+  - Ground
+  - Player_Head
+  - Stun_Area
   layers:
   - Default
   - TransparentFX
@@ -23,7 +26,7 @@ TagManager:
   - Player
   - Invulnerability
   - Border
-  - 
+  - PlayerHead
   - 
   - 
   - 
