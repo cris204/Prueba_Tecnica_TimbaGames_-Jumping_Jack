@@ -14,21 +14,24 @@ public class HoleBehaviour : MonoBehaviour {
     public static bool collisionWithPlayer;
     public static bool onlyOneTime;
     public  bool collisionWithPlayer1;
-    public  bool onlyOneTime1;
 
 
     void Awake () {
 
         rb=GetComponent<Rigidbody2D>();
-        speedVector = Vector2.right * horizontalSpeed;
+       
         collisionWithPlayer = true;
+    }
+
+    private void OnEnable()
+    {
+        speedVector = Vector2.right * horizontalSpeed;
     }
 
 
     private void Update()
     {
         collisionWithPlayer1 = collisionWithPlayer;
-        onlyOneTime1 = onlyOneTime;
     }
 
 
@@ -60,10 +63,6 @@ public class HoleBehaviour : MonoBehaviour {
             {
                 groundCollider = other.gameObject;
             }
-            if (stunCollider != null && groundCollider != null)
-            {
-                onlyOneTime = true;
-            }
         }
     }
 
@@ -79,15 +78,31 @@ public class HoleBehaviour : MonoBehaviour {
 
         if (other.CompareTag("Player"))
         {
+            stunCollider.layer = 8;
+            groundCollider.layer = 8;
             if (stunCollider != null && groundCollider != null)
             {
                 groundCollider = null;
                 stunCollider = null;
-                Debug.Log(other.transform.name);
 
             }
-            onlyOneTime = false;
             collisionWithPlayer = false;
         }
     }
+
+    #region Gets and Sets
+        
+    public float HorizontalSpeed
+    {
+        get
+        {
+            return horizontalSpeed;
+        }
+        set
+        {
+            horizontalSpeed = value;
+        }
+    }
+
+    #endregion
 }

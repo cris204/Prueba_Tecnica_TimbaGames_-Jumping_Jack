@@ -22,7 +22,13 @@ public class GameManager : MonoBehaviour {
     [SerializeField]
     private int enemys;
     [SerializeField]
-    private Transform lanesPosition;
+    private Transform[] lanesPosition;
+
+    [Header("Spawn Holes")]
+    private Vector2 posToSpawnHole;
+    private GameObject holeToActive;
+
+    
 
     private void Awake()
     {
@@ -53,6 +59,9 @@ public class GameManager : MonoBehaviour {
 
     public void GetNewHole()
     {
-        HolePool.Instance.GetHoles();
+        posToSpawnHole.x = Random.Range(-7.66f, 7.66f);
+        posToSpawnHole.y = lanesPosition[Random.Range(0,lanesPosition.Length)].transform.localPosition.y - 0.14f;
+        holeToActive= HolePool.Instance.GetHoles();
+        holeToActive.transform.localPosition = posToSpawnHole;
     }
 }
