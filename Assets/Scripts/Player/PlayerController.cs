@@ -19,11 +19,6 @@ public class PlayerController : MonoBehaviour {
     [Header("General")]
     [SerializeField]
     private Rigidbody2D rb;
-    [SerializeField]
-    private bool fallingDown;
-    [SerializeField]
-    private CollidersInteractions colliderInteractions;
-
 
     [Header("Horizonatl Move")]
     private Vector3 speedVector;
@@ -40,8 +35,6 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     private string jumpInput;
 
-
-
     [Header("Jump")]
     RaycastHit2D hit;
     [SerializeField]
@@ -55,12 +48,21 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     private LayerMask layer;    
 
+
+    [Header("Collision")]
+    public bool isOnAir;
+    private BoxCollider2D playerCollider;
+
+    [Header("Borders")]
+    private Vector2 destination;
+    
+
     #endregion
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        colliderInteractions = GetComponent<CollidersInteractions>();
+        playerCollider = GetComponent<BoxCollider2D>();
         if (instance == null)
         {
             instance = this;
@@ -95,7 +97,7 @@ public class PlayerController : MonoBehaviour {
     void Move()
     {
 
-        if ( h != 0 && canHorizontalMove && !fallingDown)
+        if ( h != 0 && canHorizontalMove &&!isOnAir)
         {
             speedVector.x = speed * h * Time.deltaTime;
             speedVector.y = 0;
@@ -132,19 +134,30 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    #region OnTrigger
+
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.CompareTag("Left_Border") || other.CompareTag("Right_Border"))
+        {
+            destination.x = other.transform.localPosition.x;
+            destination.y = transform.position.y;
+            transform.localPosition = destination;
+
+        }
+
         if (other.CompareTag("Hole"))
         {
-            if (!colliderInteractions.JumpToPlatform)
+            gameObject.layer = 11;
+            if (!isOnAir)
             {
+
                 Time.timeScale = 0.5f;
                 canHorizontalMove = false;
                 canJump = false;
-
+                isOnAir = true;
                 if (!isJumping)
                 {
-                    fallingDown = true;
                     rb.velocity = Vector2.zero;
                 }
                 else
@@ -157,13 +170,32 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        
+    }
+
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Hole"))
         {
-            fallingDown = false;
+            isOnAir = false;
+            playerCollider.isTrigger = false;
+            gameObject.layer = 10;
         }
     }
+
+    #endregion
+
+    #region OnCollision
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Stun_Area"))
+        {
+            Debug.Log(other.transform.parent.transform.name);
+        }
+    }
+    #endregion
 
     #region Coroutines
     IEnumerator WaitToJump()

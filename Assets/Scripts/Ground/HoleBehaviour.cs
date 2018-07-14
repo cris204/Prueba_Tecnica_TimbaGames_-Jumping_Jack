@@ -9,12 +9,7 @@ public class HoleBehaviour : MonoBehaviour {
     [SerializeField]
     private float horizontalSpeed;
     private Vector2 speedVector;
-    public GameObject groundCollider;
-    public GameObject stunCollider;
-    public static bool collisionWithPlayer;
-    public static bool onlyOneTime;
-    [SerializeField]
-    private bool startWithCollision;
+  //  public static bool collisionWithPlayer;
     private int floor;
 
 
@@ -22,15 +17,13 @@ public class HoleBehaviour : MonoBehaviour {
 
         rb=GetComponent<Rigidbody2D>();
        
-        collisionWithPlayer = true;
+      //  collisionWithPlayer = true;
         floor = 6;
     }
 
     private void OnEnable()
     {
         speedVector = Vector2.right * horizontalSpeed;
-        //floor = GameManager.Instance.Floor;
-
     }
 
     void FixedUpdate() {
@@ -56,32 +49,6 @@ public class HoleBehaviour : MonoBehaviour {
         }
     }
 
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-
-            collisionWithPlayer = true;
-            /* if (stunCollider != null && groundCollider != null)
-             {
-                 stunCollider.layer = 14;
-                 groundCollider.layer = 14;
-             }*/
-            other.gameObject.layer = 11;
-        }
-
-        if (collisionWithPlayer)
-        {
-            if (other.CompareTag("Stun_Area"))
-            {
-                stunCollider = other.gameObject;
-            }
-            if (other.CompareTag("Ground"))
-            {
-                groundCollider = other.gameObject;
-            }
-        }
-    }
 
     private void OnTriggerExit2D(Collider2D other)
     {
@@ -90,8 +57,6 @@ public class HoleBehaviour : MonoBehaviour {
             if (other.CompareTag("Right_Border"))
             {
                 HolePool.Instance.DisableHole(this.gameObject);
-                groundCollider = null;
-                stunCollider = null;
 
             }
         }
@@ -100,27 +65,8 @@ public class HoleBehaviour : MonoBehaviour {
             if (other.CompareTag("Left_Border"))
             {
                 HolePool.Instance.DisableHole(this.gameObject);
-                groundCollider = null;
-                stunCollider = null;
 
             }
-        }
-
-        if (other.CompareTag("Player"))
-        {
-            /* if (stunCollider != null && groundCollider != null)
-             {
-                 stunCollider.layer = 8;
-                 groundCollider.layer = 8;
-             }
-             if (stunCollider != null && groundCollider != null)
-             {
-                 groundCollider = null;
-                 stunCollider = null;
-
-             }*/
-            other.gameObject.layer = 10;
-            collisionWithPlayer = false;
         }
     }
 
