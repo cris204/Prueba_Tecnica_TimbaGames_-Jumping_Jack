@@ -24,6 +24,10 @@ public class HolePool : MonoBehaviour {
 
     private GameObject created;
     private GameObject holeToActivate;
+    private HoleBehaviour holeBehaviour;
+    [SerializeField]
+    private float[] speedDirection;
+
 
     void Awake()
     {
@@ -58,20 +62,29 @@ public class HolePool : MonoBehaviour {
 
     }
 
-    public GameObject GetHoles()
+    public GameObject GetHoles(float speed,bool start)
     {
         if (holesList.Count == 0)
         {
             CreateHoles();
         }
-        return QuantityHoles();
+        return QuantityHoles(speed,start);
     }
 
-    private GameObject QuantityHoles()
+    private GameObject QuantityHoles(float speed, bool start)
     {
         holeToActivate = holesList[holesList.Count - 1];
         holesList.RemoveAt(holesList.Count - 1);
-
+        holeBehaviour = holeToActivate.GetComponent<HoleBehaviour>();
+        if (start)
+        {
+            holeBehaviour.HorizontalSpeed = speedDirection[Random.Range(0, 2)];
+            //  holeToActivate.GetComponent<HoleBehaviour>().HorizontalSpeed = speedDirection[Random.Range(0, 2)];
+        }
+        else
+        {
+            holeBehaviour.HorizontalSpeed = speed;
+        }
         holeToActivate.gameObject.SetActive(true);
 
         return holeToActivate;

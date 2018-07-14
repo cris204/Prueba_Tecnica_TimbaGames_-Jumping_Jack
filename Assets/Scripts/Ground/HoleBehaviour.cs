@@ -13,7 +13,9 @@ public class HoleBehaviour : MonoBehaviour {
     public GameObject stunCollider;
     public static bool collisionWithPlayer;
     public static bool onlyOneTime;
-    public  bool collisionWithPlayer1;
+    [SerializeField]
+    private bool startWithCollision;
+    private int floor;
 
 
     void Awake () {
@@ -26,18 +28,32 @@ public class HoleBehaviour : MonoBehaviour {
     private void OnEnable()
     {
         speedVector = Vector2.right * horizontalSpeed;
+        //floor = GameManager.Instance.Floor;
+        floor = 0;
     }
-
-
-    private void Update()
-    {
-        collisionWithPlayer1 = collisionWithPlayer;
-    }
-
 
     void FixedUpdate() {
         rb.velocity = speedVector*Time.deltaTime;	
 	}
+
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (horizontalSpeed > 0)
+        {
+            if (other.CompareTag("Right_Border"))
+            {
+                GameManager.Instance.GetHole(horizontalSpeed,floor);
+            }
+        }
+        else
+        {
+            if (other.CompareTag("Left_Border"))
+            {
+                GameManager.Instance.GetHole(horizontalSpeed, floor);
+            }
+        }
+    }
 
     private void OnTriggerStay2D(Collider2D other)
     {
@@ -54,7 +70,6 @@ public class HoleBehaviour : MonoBehaviour {
 
         if (collisionWithPlayer)
         {
-            Debug.Log("veces");
             if (other.CompareTag("Stun_Area"))
             {
                 stunCollider = other.gameObject;
@@ -68,12 +83,32 @@ public class HoleBehaviour : MonoBehaviour {
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Lateral_Border"))
+        /*if (other.CompareTag("Lateral_Border_Holes"))
         {
             HolePool.Instance.DisableHole(this.gameObject);
             groundCollider = null;
             stunCollider = null;
 
+        }*/
+        if (horizontalSpeed > 0)
+        {
+            if (other.CompareTag("Right_Border"))
+            {
+                HolePool.Instance.DisableHole(this.gameObject);
+                groundCollider = null;
+                stunCollider = null;
+
+            }
+        }
+        else
+        {
+            if (other.CompareTag("Left_Border"))
+            {
+                HolePool.Instance.DisableHole(this.gameObject);
+                groundCollider = null;
+                stunCollider = null;
+
+            }
         }
 
         if (other.CompareTag("Player"))
@@ -101,6 +136,19 @@ public class HoleBehaviour : MonoBehaviour {
         set
         {
             horizontalSpeed = value;
+        }
+    }
+
+    public int Floor
+    {
+        get
+        {
+            return floor;
+        }
+
+        set
+        {
+            floor = value;
         }
     }
 

@@ -12,6 +12,9 @@ TagManager:
   - Ground
   - Player_Head
   - Stun_Area
+  - Lateral_Border_Holes
+  - Right_Border
+  - Left_Border
   layers:
   - Default
   - TransparentFX

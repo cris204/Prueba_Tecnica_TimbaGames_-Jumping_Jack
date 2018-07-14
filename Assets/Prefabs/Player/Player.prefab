@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpingToPlatform: 0
-  fallDownPlatform: 0
+  isOnAir: 0
 --- !u!114 &114658473073159406
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -124,6 +124,7 @@ MonoBehaviour:
   jumpSpeed: 300
   distance: 0.35
   canJump: 0
+  isJumping: 0
   layer:
     serializedVersion: 2
     m_Bits: 256
