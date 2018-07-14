@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+
+
     [SerializeField]
     private int lifes;
     [SerializeField]
@@ -28,6 +30,7 @@ public class GameManager : MonoBehaviour {
     private Vector2 posToSpawnHole;
     private GameObject holeToActive;
     private HoleBehaviour holeBehaviour;
+    private int holesUnits;
     private int floor;
     
 
@@ -41,28 +44,32 @@ public class GameManager : MonoBehaviour {
         {
             Destroy(this.gameObject);
         }
+        floor = Random.Range(0, lanesPosition.Length);
     }
 
 
 
     // Use this for initialization
     void Start () {
-        floor = 0;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	}
+        holesUnits = 2;
+
+    }
 
     public void GetNewHole()
     {
-        posToSpawnHole.x = Random.Range(-7.66f, 7.66f);
-        floor = Random.Range(0, lanesPosition.Length);
-        //posToSpawnHole.y = lanesPosition[floor].transform.localPosition.y - 0.14f;
+        if (holesUnits<8)
+        {
+            posToSpawnHole.x = Random.Range(-7.66f, 7.66f);
+            floor = Random.Range(0, lanesPosition.Length);
+            posToSpawnHole.y = lanesPosition[floor].transform.localPosition.y;
 
-        posToSpawnHole.y = lanesPosition[1].transform.localPosition.y - 0.14f;
-        holeToActive = HolePool.Instance.GetHoles(0,true);
-        holeToActive.transform.localPosition = posToSpawnHole;
+            //posToSpawnHole.y = lanesPosition[1].transform.localPosition.y - 0.14f;
+            holeToActive = HolePool.Instance.GetHoles(0, true);
+            holeToActive.transform.localPosition = posToSpawnHole;
+            holeBehaviour = holeToActive.GetComponent<HoleBehaviour>();
+            holeBehaviour.Floor = floor;
+            holesUnits++;
+        }
     }
 
     public void GetHole(float speed,int oldFloor)
@@ -80,7 +87,8 @@ public class GameManager : MonoBehaviour {
 
             }
             posToSpawnHole.x = -7.66f;
-            posToSpawnHole.y = lanesPosition[holeBehaviour.Floor].transform.localPosition.y - 0.14f;
+            //posToSpawnHole.y = lanesPosition[holeBehaviour.Floor].transform.localPosition.y - 0.14f;
+            posToSpawnHole.y = lanesPosition[holeBehaviour.Floor].transform.localPosition.y;
             holeBehaviour.HorizontalSpeed = speed;
             holeToActive.transform.localPosition = posToSpawnHole;
         }
@@ -93,7 +101,8 @@ public class GameManager : MonoBehaviour {
 
             }
             posToSpawnHole.x = 7.66f;
-            posToSpawnHole.y = lanesPosition[holeBehaviour.Floor].transform.localPosition.y - 0.14f;
+            //posToSpawnHole.y = lanesPosition[holeBehaviour.Floor].transform.localPosition.y - 0.14f;
+            posToSpawnHole.y = lanesPosition[holeBehaviour.Floor].transform.localPosition.y;
             holeBehaviour.HorizontalSpeed = speed;
             holeToActive.transform.localPosition = posToSpawnHole;
         }
@@ -101,7 +110,18 @@ public class GameManager : MonoBehaviour {
     }
 
     #region Gets and Sets
+    public int Floor
+    {
+        get
+        {
+            return floor;
+        }
 
+        set
+        {
+            floor = value;
+        }
+    }
 
     #endregion
 }

@@ -5,6 +5,16 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     #region Variables
+
+    private static PlayerController instance;
+    public static PlayerController Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+
     public float timeSpeed;
     [Header("General")]
     [SerializeField]
@@ -51,6 +61,14 @@ public class PlayerController : MonoBehaviour {
     {
         rb = GetComponent<Rigidbody2D>();
         colliderInteractions = GetComponent<CollidersInteractions>();
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     private void Start()
@@ -131,7 +149,7 @@ public class PlayerController : MonoBehaviour {
                 }
                 else
                 {
-                   GameManager.Instance.GetNewHole();
+                //    GameManager.Instance.GetNewHole();
                 }
 
 
