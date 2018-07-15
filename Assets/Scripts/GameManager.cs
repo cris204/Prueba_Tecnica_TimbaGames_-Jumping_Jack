@@ -23,8 +23,6 @@ public class GameManager : MonoBehaviour {
     [SerializeField]
     private int highScore;
     [SerializeField]
-    private int holes;
-    [SerializeField]
     private int level;
     [SerializeField]
     private Transform[] lanesPosition;
@@ -46,6 +44,7 @@ public class GameManager : MonoBehaviour {
     private int floor;
     private GameObject holeToActive;
     private HoleBehaviour holeBehaviour;
+    [SerializeField]
     private int holesUnits;
     private Vector2 posToSpawnHole;
     private int floorFirstHole;
@@ -73,19 +72,19 @@ public class GameManager : MonoBehaviour {
 
         Floor = Random.Range(0, lanesPosition.Length);
         FloorEnemy = Random.Range(0, lanesPosition.Length);
-        DontDestroyOnLoad(this.gameObject);
+       // DontDestroyOnLoad(this.gameObject);
     }
 
 
 
     // Use this for initialization
     void Start () {
-        holesUnits = 2;
         StartNewLevel(Level);
     }
 
     public void StartNewLevel(int level)
     {
+        holesUnits = 0;
         GetNewHole(true);
         GetNewHole(true);
 
@@ -217,6 +216,22 @@ public class GameManager : MonoBehaviour {
         }
     }
    
+    public void LessLifes()
+    {
+        Lifes--;
+        CanvasManager.Instance.LessLifesImage();
+        Debug.Log(Lifes);
+
+        if (Lifes <= 0)
+        {
+            HighScoreUpdate(Score);
+            SceneManager.LoadScene(0);
+            
+            //Level = 0;
+           // StartNewLevel(Level);
+        }
+    }
+
     public void LevelUp()
     {
         Level += 1;

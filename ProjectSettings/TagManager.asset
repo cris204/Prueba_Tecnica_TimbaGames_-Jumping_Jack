@@ -16,6 +16,7 @@ TagManager:
   - Right_Border
   - Left_Border
   - Enemy
+  - Danger_Zone
   layers:
   - Default
   - TransparentFX

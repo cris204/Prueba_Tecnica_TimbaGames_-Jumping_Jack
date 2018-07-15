@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody2D rb;
     [SerializeField]
     private bool stuned;
+    [SerializeField]
+    private bool startGame;
 
     [Header("Horizonatl Move")]
     private Vector3 speedVector;
@@ -48,7 +50,8 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     private bool isJumping;
     [SerializeField]
-    private LayerMask layer;    
+    private LayerMask layer;  
+
 
 
     [Header("Collision")]
@@ -77,7 +80,7 @@ public class PlayerController : MonoBehaviour {
 
     private void Start()
     {
-        
+        startGame = true;
         canHorizontalMove = true;
         canJump = true;
     }
@@ -140,6 +143,7 @@ public class PlayerController : MonoBehaviour {
     {
         GameManager.Instance.ChangeBackGroundColor(Color.white);
         stuned = true;
+        rb.velocity = Vector3.zero;
         StartCoroutine(StunedTime());
     }
 
@@ -175,7 +179,6 @@ public class PlayerController : MonoBehaviour {
 
         if (other.CompareTag("Hole"))
         {
-
             gameObject.layer = 11;
             if (!isOnAir)
             {
@@ -184,6 +187,7 @@ public class PlayerController : MonoBehaviour {
                 isOnAir = true;
                 if (!isJumping)
                 {
+                    Stun();
                     rb.velocity = Vector2.zero;
                 }
                 else
@@ -194,11 +198,29 @@ public class PlayerController : MonoBehaviour {
             }
             SlowTime(isOnAir);
         }
+
+        if (other.CompareTag("Danger_Zone"))
+        {
+            if (!GameManager.Instance.FinishLevel && !startGame)
+            {
+                GameManager.Instance.LessLifes();    
+            }
+            startGame = false;
+        }
+
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            Stun();
+
+        }
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        
+        if (other.CompareTag("Hole"))
+        {
+            gameObject.layer = 11;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)

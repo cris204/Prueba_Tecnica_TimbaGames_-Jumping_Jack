@@ -39,7 +39,7 @@ public class CanvasManager : MonoBehaviour {
         {
             Destroy(this.gameObject);
         }
-        DontDestroyOnLoad(this.gameObject);
+      //  DontDestroyOnLoad(this.gameObject);
     }
 
 
@@ -63,6 +63,11 @@ public class CanvasManager : MonoBehaviour {
         }
         StartCoroutine(ContinueNextLevel(level));
     }
+    public void LessLifesImage()
+    {
+        lifes.fillAmount -= 0.1667f;
+    }
+
 
     #region Corroutine
 
@@ -70,7 +75,7 @@ public class CanvasManager : MonoBehaviour {
     {
         yield return new WaitForSeconds(5);
         GameManager.Instance.FinishLevel = false;
-        GameManager.Instance.StartNewLevel(1);
+        GameManager.Instance.StartNewLevel(level);
 
         Debug.Log("start again");
         nextLevelContainer.SetActive(false);
