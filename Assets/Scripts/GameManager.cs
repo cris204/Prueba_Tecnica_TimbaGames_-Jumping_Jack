@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour {
     }
 
 
-
+    [Header("General")]
     [SerializeField]
     private int lifes;
     [SerializeField]
@@ -25,14 +25,19 @@ public class GameManager : MonoBehaviour {
     private int enemys;
     [SerializeField]
     private Transform[] lanesPosition;
-
+    [Header("BackGround")]
+    [SerializeField]
+    private SpriteRenderer backGround;
+    [SerializeField]
+    private Color32 bGColor;
     [Header("Spawn Holes")]
     private Vector2 posToSpawnHole;
     private GameObject holeToActive;
     private HoleBehaviour holeBehaviour;
     private int holesUnits;
     private int floor;
-    
+    [SerializeField]
+    private bool stunedPlayer;
 
     private void Awake()
     {
@@ -109,6 +114,48 @@ public class GameManager : MonoBehaviour {
 
     }
 
+    public void ChangeTimeScale(float timeSpeed)
+    {
+        Time.timeScale = timeSpeed;
+    }
+
+    public void ChangeBackGroundColor(Color32 color)
+    {
+        StartCoroutine(ChangeColorStuned(color, bGColor));
+    }
+
+    #region corroutine
+
+    IEnumerator ChangeColorStuned(Color32 color,Color32 colorBG)
+    {
+        
+        backGround.color = color;
+        stunedPlayer = true;
+        yield return new WaitForSeconds(0.1f);
+        backGround.color = colorBG;
+        stunedPlayer = false;
+        yield return new WaitForSeconds(0.1f);
+        backGround.color = color;
+        stunedPlayer = true;
+        yield return new WaitForSeconds(0.1f);
+        stunedPlayer = false;
+        backGround.color = colorBG;
+    }
+
+    IEnumerator ChangeColorStunedByEnemy(Color32 color, Color32 colorBG)
+    {
+
+        backGround.color = color;
+        stunedPlayer = true;
+        yield return new WaitForSeconds(0.1f);
+        backGround.color = colorBG;
+        stunedPlayer = false;
+
+    }
+
+    #endregion
+
+
     #region Gets and Sets
     public int Floor
     {
@@ -120,6 +167,19 @@ public class GameManager : MonoBehaviour {
         set
         {
             floor = value;
+        }
+    }
+
+    public bool StunedPlayer
+    {
+        get
+        {
+            return stunedPlayer;
+        }
+
+        set
+        {
+            stunedPlayer = value;
         }
     }
 

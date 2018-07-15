@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour {
     [Header("General")]
     [SerializeField]
     private Rigidbody2D rb;
+    [SerializeField]
+    private bool stuned;
 
     [Header("Horizonatl Move")]
     private Vector3 speedVector;
@@ -97,8 +99,9 @@ public class PlayerController : MonoBehaviour {
     void Move()
     {
 
-        if ( h != 0 && canHorizontalMove &&!isOnAir)
+        if ( h != 0 && canHorizontalMove && !isOnAir && !stuned)
         {
+
             speedVector.x = speed * h * Time.deltaTime;
             speedVector.y = 0;
             rb.velocity = speedVector;
@@ -111,7 +114,7 @@ public class PlayerController : MonoBehaviour {
         {
             canJump = true;
             canHorizontalMove = true;
-            Time.timeScale = 1;
+            // GameManager.Instance.ChangeTimeScale(1);
             isJumping = false;
         }
         else
@@ -122,15 +125,33 @@ public class PlayerController : MonoBehaviour {
 
         Debug.DrawRay(transform.position, Vector2.down * distance);
 
-        if (Input.GetButtonDown(jumpInput) && canJump)
+        if (Input.GetButtonDown(jumpInput) && canJump && !stuned)
         {
             isJumping = true;
-            Time.timeScale = 0.5f;
+            GameManager.Instance.ChangeTimeScale(0.5f);
             canJump = false;
             canHorizontalMove = false;
             speedVector.x = 0;
             speedVector.y = jumpSpeed * Time.deltaTime;
             rb.velocity = speedVector;
+        }
+    }
+
+    void Stun()
+    {
+        stuned = true;
+        StartCoroutine(StunedTime());
+    }
+
+    void SlowTime(bool slow)
+    {
+        if (slow)
+        {
+            GameManager.Instance.ChangeTimeScale(0.5f);
+        }
+        else
+        {
+            GameManager.Instance.ChangeTimeScale(1);
         }
     }
 
@@ -148,11 +169,12 @@ public class PlayerController : MonoBehaviour {
 
         if (other.CompareTag("Hole"))
         {
+
             gameObject.layer = 11;
             if (!isOnAir)
             {
 
-                Time.timeScale = 0.5f;
+
                 canHorizontalMove = false;
                 canJump = false;
                 isOnAir = true;
@@ -162,11 +184,10 @@ public class PlayerController : MonoBehaviour {
                 }
                 else
                 {
-                //    GameManager.Instance.GetNewHole();
+                    GameManager.Instance.GetNewHole();
                 }
-
-
             }
+            SlowTime(isOnAir);
         }
     }
 
@@ -179,9 +200,9 @@ public class PlayerController : MonoBehaviour {
     {
         if (other.CompareTag("Hole"))
         {
-            isOnAir = false;
             playerCollider.isTrigger = false;
             gameObject.layer = 10;
+            GameManager.Instance.ChangeTimeScale(1f);
         }
     }
 
@@ -192,15 +213,23 @@ public class PlayerController : MonoBehaviour {
     {
         if (other.gameObject.CompareTag("Stun_Area"))
         {
-            Debug.Log(other.transform.parent.transform.name);
+            Stun();
+            GameManager.Instance.ChangeBackGroundColor(Color.white);
+        }
+
+        if (other.gameObject.CompareTag("Ground"))
+        {
+            isOnAir = false;
+            SlowTime(isOnAir);
         }
     }
     #endregion
 
     #region Coroutines
-    IEnumerator WaitToJump()
+    IEnumerator StunedTime()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
+        stuned = false;
     }
 
 

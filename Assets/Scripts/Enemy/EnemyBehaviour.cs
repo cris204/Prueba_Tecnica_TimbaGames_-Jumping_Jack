@@ -2,22 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HoleBehaviour : MonoBehaviour {
+public class EnemyBehaviour : MonoBehaviour {
 
     [SerializeField]
     private Rigidbody2D rb;
     [SerializeField]
     private float horizontalSpeed;
     private Vector2 speedVector;
-  //  public static bool collisionWithPlayer;
+    //  public static bool collisionWithPlayer;
     private int floor;
 
 
-    void Awake () {
+    void Awake()
+    {
 
-        rb=GetComponent<Rigidbody2D>();
-       
-      //  collisionWithPlayer = true;
+        rb = GetComponent<Rigidbody2D>();
+
+        //  collisionWithPlayer = true;
         floor = 6;
     }
 
@@ -26,7 +27,8 @@ public class HoleBehaviour : MonoBehaviour {
         speedVector = Vector2.right * horizontalSpeed;
     }
 
-    void FixedUpdate() {
+    void FixedUpdate()
+    {
         if (!GameManager.Instance.StunedPlayer)
         {
             rb.velocity = speedVector * Time.deltaTime;
@@ -35,7 +37,7 @@ public class HoleBehaviour : MonoBehaviour {
         {
             rb.velocity = Vector3.zero;
         }
-	}
+    }
 
 
     void OnTriggerEnter2D(Collider2D other)
@@ -44,7 +46,7 @@ public class HoleBehaviour : MonoBehaviour {
         {
             if (other.CompareTag("Right_Border"))
             {
-                GameManager.Instance.GetHole(horizontalSpeed,floor);
+                GameManager.Instance.GetHole(horizontalSpeed, floor);
             }
         }
         else
@@ -78,7 +80,7 @@ public class HoleBehaviour : MonoBehaviour {
     }
 
     #region Gets and Sets
-        
+
     public float HorizontalSpeed
     {
         get
