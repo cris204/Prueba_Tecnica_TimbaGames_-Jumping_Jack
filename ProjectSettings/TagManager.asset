@@ -15,6 +15,7 @@ TagManager:
   - Lateral_Border_Holes
   - Right_Border
   - Left_Border
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -31,7 +32,7 @@ TagManager:
   - Border
   - PlayerHead
   - NoColisionWithPlayer
-  - 
+  - Enemy
   - 
   - 
   - 

@@ -11,6 +11,8 @@ public class HoleBehaviour : MonoBehaviour {
     private Vector2 speedVector;
   //  public static bool collisionWithPlayer;
     private int floor;
+    [SerializeField]
+    private bool initialHole;
 
 
     void Awake () {
@@ -18,8 +20,8 @@ public class HoleBehaviour : MonoBehaviour {
         rb=GetComponent<Rigidbody2D>();
        
       //  collisionWithPlayer = true;
-        floor = 6;
     }
+
 
     private void OnEnable()
     {

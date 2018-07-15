@@ -62,24 +62,23 @@ public class HolePool : MonoBehaviour {
 
     }
 
-    public GameObject GetHoles(float speed,bool start)
+    public GameObject GetHoles(float speed,bool assignSpeed)
     {
         if (holesList.Count == 0)
         {
             CreateHoles();
         }
-        return QuantityHoles(speed,start);
+        return QuantityHoles(speed,assignSpeed);
     }
 
-    private GameObject QuantityHoles(float speed, bool start)
+    private GameObject QuantityHoles(float speed, bool assignSpeed)
     {
         holeToActivate = holesList[holesList.Count - 1];
         holesList.RemoveAt(holesList.Count - 1);
         holeBehaviour = holeToActivate.GetComponent<HoleBehaviour>();
-        if (start)
+        if (assignSpeed)
         {
             holeBehaviour.HorizontalSpeed = speedDirection[Random.Range(0, 2)];
-            //  holeToActivate.GetComponent<HoleBehaviour>().HorizontalSpeed = speedDirection[Random.Range(0, 2)];
         }
         else
         {

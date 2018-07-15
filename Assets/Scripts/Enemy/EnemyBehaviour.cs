@@ -10,7 +10,7 @@ public class EnemyBehaviour : MonoBehaviour {
     private float horizontalSpeed;
     private Vector2 speedVector;
     //  public static bool collisionWithPlayer;
-    private int floor;
+    public int floor;
 
 
     void Awake()
@@ -19,9 +19,12 @@ public class EnemyBehaviour : MonoBehaviour {
         rb = GetComponent<Rigidbody2D>();
 
         //  collisionWithPlayer = true;
-        floor = 6;
     }
 
+    private void Start()
+    {
+       // floor = GameManager.Instance.FloorEnemy;
+    }
     private void OnEnable()
     {
         speedVector = Vector2.right * horizontalSpeed;
@@ -46,14 +49,14 @@ public class EnemyBehaviour : MonoBehaviour {
         {
             if (other.CompareTag("Right_Border"))
             {
-                GameManager.Instance.GetHole(horizontalSpeed, floor);
+                GameManager.Instance.GetEnemy(floor);
             }
         }
         else
         {
             if (other.CompareTag("Left_Border"))
             {
-                GameManager.Instance.GetHole(horizontalSpeed, floor);
+                GameManager.Instance.GetEnemy(floor);
             }
         }
     }
@@ -65,7 +68,7 @@ public class EnemyBehaviour : MonoBehaviour {
         {
             if (other.CompareTag("Right_Border"))
             {
-                HolePool.Instance.DisableHole(this.gameObject);
+                EnemyPool.Instance.DisableEnemy(this.gameObject);
 
             }
         }
@@ -73,7 +76,7 @@ public class EnemyBehaviour : MonoBehaviour {
         {
             if (other.CompareTag("Left_Border"))
             {
-                HolePool.Instance.DisableHole(this.gameObject);
+                EnemyPool.Instance.DisableEnemy(this.gameObject);
 
             }
         }
