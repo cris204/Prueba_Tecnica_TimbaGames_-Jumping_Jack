@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
@@ -20,6 +21,8 @@ public class GameManager : MonoBehaviour {
     [SerializeField]
     private int score;
     [SerializeField]
+    private int highScore;
+    [SerializeField]
     private int holes;
     [SerializeField]
     private int level;
@@ -27,7 +30,11 @@ public class GameManager : MonoBehaviour {
     private Transform[] lanesPosition;
     private Vector2 posToSpawn;
     [SerializeField]
-    private bool stunedPlayer;
+    private bool slowTime;
+    [SerializeField]
+    private bool finishLevel;
+    [SerializeField]
+    private GameObject player;
 
     [Header("BackGround")]
     [SerializeField]
@@ -64,8 +71,9 @@ public class GameManager : MonoBehaviour {
             Destroy(this.gameObject);
         }
 
-        floor = Random.Range(0, lanesPosition.Length);
-        floorEnemy = Random.Range(0, lanesPosition.Length);
+        Floor = Random.Range(0, lanesPosition.Length);
+        FloorEnemy = Random.Range(0, lanesPosition.Length);
+        DontDestroyOnLoad(this.gameObject);
     }
 
 
@@ -73,10 +81,10 @@ public class GameManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         holesUnits = 2;
-        StartNewLevel(level);
+        StartNewLevel(Level);
     }
 
-    void StartNewLevel(int level)
+    public void StartNewLevel(int level)
     {
         GetNewHole(true);
         GetNewHole(true);
@@ -94,12 +102,12 @@ public class GameManager : MonoBehaviour {
     {
 
         posToSpawn.x = Random.Range(-7.66f, 7.66f);
-        floorEnemy = Random.Range(0, lanesPosition.Length);
-        posToSpawn.y = lanesPosition[floorEnemy].transform.localPosition.y + 0.4f;
+        FloorEnemy = Random.Range(0, lanesPosition.Length);
+        posToSpawn.y = lanesPosition[FloorEnemy].transform.localPosition.y + 0.4f;
         enemyToActive = EnemyPool.Instance.GetEnemy();
         enemyToActive.transform.localPosition = posToSpawn;
         enemyBehaviour = enemyToActive.GetComponent<EnemyBehaviour>();
-        enemyBehaviour.Floor = floorEnemy;
+        enemyBehaviour.Floor = FloorEnemy;
     }
 
     public void GetEnemy(int oldFloor)
@@ -136,14 +144,14 @@ public class GameManager : MonoBehaviour {
             }
             else
             {
-                floor = Random.Range(0, lanesPosition.Length);
+                Floor = Random.Range(0, lanesPosition.Length);
                 holeToActive = HolePool.Instance.GetHoles(0, true);
             }
             posToSpawnHole.x = Random.Range(-7.66f, 7.66f);
-            posToSpawnHole.y = lanesPosition[floor].transform.localPosition.y;
+            posToSpawnHole.y = lanesPosition[Floor].transform.localPosition.y;
             holeToActive.transform.localPosition = posToSpawnHole;
             holeBehaviour = holeToActive.GetComponent<HoleBehaviour>();
-            holeBehaviour.Floor = floor;
+            holeBehaviour.Floor = Floor;
             holesUnits++;
         }
     }
@@ -196,21 +204,44 @@ public class GameManager : MonoBehaviour {
         StartCoroutine(ChangeColorStuned(color, bGColor));
     }
 
+    public void ScoreUpdate(int scoreUp)
+    {
+        Score += scoreUp;
+    }
+
+    public void HighScoreUpdate(int HighScoreUp)
+    {
+        if (HighScore <= HighScoreUp)
+        {
+            HighScore = HighScoreUp;
+        }
+    }
+   
+    public void LevelUp()
+    {
+        Level += 1;
+        FinishLevel = true;
+        player.layer = 10;
+        player.transform.localPosition = Vector2.up * -3.33f;
+
+        CanvasManager.Instance.AssignTxtNextLevel(Level);
+    }
+    
     #region corroutine
 
     IEnumerator ChangeColorStuned(Color32 color,Color32 colorBG)
     {
         
         backGround.color = color;
-        stunedPlayer = true;
+        slowTime = true;
         yield return new WaitForSeconds(0.1f);
         backGround.color = colorBG;
-        stunedPlayer = false;
+        slowTime = false;
         yield return new WaitForSeconds(0.1f);
         backGround.color = color;
-        stunedPlayer = true;
+        slowTime = true;
         yield return new WaitForSeconds(0.1f);
-        stunedPlayer = false;
+        slowTime = false;
         backGround.color = colorBG;
     }
 
@@ -218,12 +249,13 @@ public class GameManager : MonoBehaviour {
     {
 
         backGround.color = color;
-        stunedPlayer = true;
+        slowTime = true;
         yield return new WaitForSeconds(0.1f);
         backGround.color = colorBG;
-        stunedPlayer = false;
+        slowTime = false;
 
     }
+
 
     #endregion
 
@@ -242,16 +274,16 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public bool StunedPlayer
+    public bool SlowTime
     {
         get
         {
-            return stunedPlayer;
+            return slowTime;
         }
 
         set
         {
-            stunedPlayer = value;
+            slowTime = value;
         }
     }
 
@@ -265,6 +297,71 @@ public class GameManager : MonoBehaviour {
         set
         {
             floorEnemy = value;
+        }
+    }
+
+    public int HighScore
+    {
+        get
+        {
+            return highScore;
+        }
+
+        set
+        {
+            highScore = value;
+        }
+    }
+
+    public int Score
+    {
+        get
+        {
+            return score;
+        }
+
+        set
+        {
+            score = value;
+        }
+    }
+
+    public int Level
+    {
+        get
+        {
+            return level;
+        }
+
+        set
+        {
+            level = value;
+        }
+    }
+
+    public bool FinishLevel
+    {
+        get
+        {
+            return finishLevel;
+        }
+
+        set
+        {
+            finishLevel = value;
+        }
+    }
+
+    public int Lifes
+    {
+        get
+        {
+            return lifes;
+        }
+
+        set
+        {
+            lifes = value;
         }
     }
 

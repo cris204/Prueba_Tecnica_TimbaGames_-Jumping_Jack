@@ -9,7 +9,6 @@ public class EnemyBehaviour : MonoBehaviour {
     [SerializeField]
     private float horizontalSpeed;
     private Vector2 speedVector;
-    //  public static bool collisionWithPlayer;
     public int floor;
 
 
@@ -18,21 +17,15 @@ public class EnemyBehaviour : MonoBehaviour {
 
         rb = GetComponent<Rigidbody2D>();
 
-        //  collisionWithPlayer = true;
-    }
-
-    private void Start()
-    {
-       // floor = GameManager.Instance.FloorEnemy;
     }
     private void OnEnable()
     {
-        speedVector = Vector2.right * horizontalSpeed;
+        speedVector = Vector2.right * HorizontalSpeed;
     }
 
     void FixedUpdate()
     {
-        if (!GameManager.Instance.StunedPlayer)
+        if (!GameManager.Instance.SlowTime)
         {
             rb.velocity = speedVector * Time.deltaTime;
         }
@@ -45,31 +38,26 @@ public class EnemyBehaviour : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (horizontalSpeed > 0)
+        if (GameManager.Instance.FinishLevel)
         {
-            if (other.CompareTag("Right_Border"))
-            {
-                GameManager.Instance.GetEnemy(floor);
-            }
+            EnemyPool.Instance.DisableEnemy(this.gameObject);
         }
-        else
+
+        if (other.CompareTag("Left_Border"))
         {
-            if (other.CompareTag("Left_Border"))
-            {
-                GameManager.Instance.GetEnemy(floor);
-            }
+            GameManager.Instance.GetEnemy(Floor);
         }
+    
     }
 
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (horizontalSpeed > 0)
+        if (HorizontalSpeed > 0)
         {
             if (other.CompareTag("Right_Border"))
             {
                 EnemyPool.Instance.DisableEnemy(this.gameObject);
-
             }
         }
         else

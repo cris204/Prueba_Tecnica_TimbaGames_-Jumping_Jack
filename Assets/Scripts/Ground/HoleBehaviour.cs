@@ -9,7 +9,6 @@ public class HoleBehaviour : MonoBehaviour {
     [SerializeField]
     private float horizontalSpeed;
     private Vector2 speedVector;
-  //  public static bool collisionWithPlayer;
     private int floor;
     [SerializeField]
     private bool initialHole;
@@ -18,18 +17,24 @@ public class HoleBehaviour : MonoBehaviour {
     void Awake () {
 
         rb=GetComponent<Rigidbody2D>();
-       
-      //  collisionWithPlayer = true;
     }
 
 
     private void OnEnable()
     {
-        speedVector = Vector2.right * horizontalSpeed;
+        speedVector = Vector2.right * HorizontalSpeed;
+    }
+
+    private void Update()
+    {
+        if (GameManager.Instance.FinishLevel)
+        {
+            HolePool.Instance.DisableHole(this.gameObject);
+        }
     }
 
     void FixedUpdate() {
-        if (!GameManager.Instance.StunedPlayer)
+        if (!GameManager.Instance.SlowTime)
         {
             rb.velocity = speedVector * Time.deltaTime;
         }
@@ -42,18 +47,23 @@ public class HoleBehaviour : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (GameManager.Instance.FinishLevel)
+        {
+            HolePool.Instance.DisableHole(this.gameObject);
+        }
+
         if (horizontalSpeed > 0)
         {
             if (other.CompareTag("Right_Border"))
             {
-                GameManager.Instance.GetHole(horizontalSpeed,floor);
+                GameManager.Instance.GetHole(HorizontalSpeed,floor);
             }
         }
         else
         {
             if (other.CompareTag("Left_Border"))
             {
-                GameManager.Instance.GetHole(horizontalSpeed, floor);
+                GameManager.Instance.GetHole(HorizontalSpeed, floor);
             }
         }
     }
@@ -61,7 +71,9 @@ public class HoleBehaviour : MonoBehaviour {
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (horizontalSpeed > 0)
+
+
+        if (HorizontalSpeed > 0)
         {
             if (other.CompareTag("Right_Border"))
             {

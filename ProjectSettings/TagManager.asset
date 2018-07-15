@@ -33,7 +33,7 @@ TagManager:
   - PlayerHead
   - NoColisionWithPlayer
   - Enemy
-  - 
+  - UpBorder
   - 
   - 
   - 

@@ -114,7 +114,6 @@ public class PlayerController : MonoBehaviour {
         {
             canJump = true;
             canHorizontalMove = true;
-            // GameManager.Instance.ChangeTimeScale(1);
             isJumping = false;
         }
         else
@@ -139,6 +138,7 @@ public class PlayerController : MonoBehaviour {
 
     void Stun()
     {
+        GameManager.Instance.ChangeBackGroundColor(Color.white);
         stuned = true;
         StartCoroutine(StunedTime());
     }
@@ -167,14 +167,18 @@ public class PlayerController : MonoBehaviour {
 
         }
 
+        if (other.CompareTag("Up_Border"))
+        {
+            GameManager.Instance.LevelUp();
+            rb.velocity = Vector3.zero;
+        }
+
         if (other.CompareTag("Hole"))
         {
 
             gameObject.layer = 11;
             if (!isOnAir)
             {
-
-
                 canHorizontalMove = false;
                 canJump = false;
                 isOnAir = true;
@@ -185,6 +189,7 @@ public class PlayerController : MonoBehaviour {
                 else
                 {
                     GameManager.Instance.GetNewHole();
+                    GameManager.Instance.ScoreUpdate(5);
                 }
             }
             SlowTime(isOnAir);
@@ -214,7 +219,7 @@ public class PlayerController : MonoBehaviour {
         if (other.gameObject.CompareTag("Stun_Area"))
         {
             Stun();
-            GameManager.Instance.ChangeBackGroundColor(Color.white);
+
         }
 
         if (other.gameObject.CompareTag("Ground"))
