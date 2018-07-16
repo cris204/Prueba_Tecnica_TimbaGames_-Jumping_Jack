@@ -198,9 +198,14 @@ public class GameManager : MonoBehaviour {
         Time.timeScale = timeSpeed;
     }
 
-    public void ChangeBackGroundColor(Color32 color)
+    public void ChangeBGColorNormalStun(Color32 color)
     {
         StartCoroutine(ChangeColorStuned(color, bGColor));
+    }
+
+    public void ChangeBGColorStunByEnemy(Color32 color)
+    {
+        StartCoroutine(ChangeColorStunedByEnemy(color, bGColor));
     }
 
     public void ScoreUpdate(int scoreUp)
@@ -265,7 +270,7 @@ public class GameManager : MonoBehaviour {
 
         backGround.color = color;
         slowTime = true;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         backGround.color = colorBG;
         slowTime = false;
 

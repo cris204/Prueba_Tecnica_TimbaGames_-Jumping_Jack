@@ -157,9 +157,9 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    void Stun()
+    void StunByFallDown()
     {
-        GameManager.Instance.ChangeBackGroundColor(Color.white);
+        GameManager.Instance.ChangeBGColorNormalStun(Color.white);
         stuned = true;
         rb.velocity = Vector3.zero;
 
@@ -177,6 +177,49 @@ public class PlayerController : MonoBehaviour {
 
 
     }
+
+    void StunByEnemy()
+    {
+        GameManager.Instance.ChangeBGColorStunByEnemy(Color.cyan);
+        stuned = true;
+        rb.velocity = Vector3.zero;
+
+        if (isOnAir)
+        {
+
+            anim.SetBool("fall_Down", true);
+            StartCoroutine(StunedTime(1));
+        }
+        else
+        {
+            anim.SetBool("stuned", true);
+            StartCoroutine(StunedTime(3));
+        }
+
+
+    }
+
+    void NormalStun()
+    {
+        GameManager.Instance.ChangeBGColorNormalStun(Color.white);
+        stuned = true;
+        rb.velocity = Vector3.zero;
+
+        if (isOnAir)
+        {
+
+            anim.SetBool("fall_Down", true);
+            StartCoroutine(StunedTime(1));
+        }
+        else
+        {
+            anim.SetBool("stuned", true);
+            StartCoroutine(StunedTime(3));
+        }
+
+
+    }
+
 
     void SlowTime(bool slow)
     {
@@ -218,7 +261,7 @@ public class PlayerController : MonoBehaviour {
                 isOnAir = true;
                 if (!isJumping)
                 {
-                    Stun();
+                    NormalStun();
                     
                     rb.velocity = Vector2.zero;
                 }
@@ -242,7 +285,7 @@ public class PlayerController : MonoBehaviour {
 
         if (other.gameObject.CompareTag("Enemy"))
         {
-            Stun();
+            StunByEnemy();
 
         }
     }
@@ -272,7 +315,7 @@ public class PlayerController : MonoBehaviour {
     {
         if (other.gameObject.CompareTag("Stun_Area"))
         {
-            Stun();
+            NormalStun();
 
         }
 
