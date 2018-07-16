@@ -14,7 +14,6 @@ public class CanvasManager : MonoBehaviour {
         }
     }
 
-    [Header("Score")]
     [SerializeField]
     private Text highScoreTxt;
     [SerializeField]
@@ -22,13 +21,16 @@ public class CanvasManager : MonoBehaviour {
     [SerializeField]
     private Text nextLevel;
     [SerializeField]
-    private string highScoreString;
-    [SerializeField]
-    private string scoreString;
+    public Text storyTxt;
     [SerializeField]
     private GameObject nextLevelContainer;
     [SerializeField]
     private Image lifes;
+    [SerializeField]
+    private float delay = 0.1f;
+    private string currentText;
+    [SerializeField]
+    private bool continueWithGame;
 
     void Awake () {
         if (instance == null)
@@ -42,7 +44,11 @@ public class CanvasManager : MonoBehaviour {
       //  DontDestroyOnLoad(this.gameObject);
     }
 
+    private void Start()
+    {
 
+
+    }
 
     // Update is called once per frame
     void Update () {
@@ -52,6 +58,7 @@ public class CanvasManager : MonoBehaviour {
 
     public void AssignTxtNextLevel(int level)
     {
+        continueWithGame = false;
         nextLevelContainer.SetActive(true);
         if (level < 2)
         {
@@ -61,8 +68,11 @@ public class CanvasManager : MonoBehaviour {
         {
             nextLevel.text = string.Format("NEXT LEVEL -   {0}   HAZARDS", level);
         }
+        
+        storyTxt.text = Story.Instance.AssignStoryText(level-1);
         StartCoroutine(ContinueNextLevel(level));
     }
+
     public void LessLifesImage()
     {
         lifes.fillAmount -= 0.1667f;
@@ -73,13 +83,30 @@ public class CanvasManager : MonoBehaviour {
 
     IEnumerator ContinueNextLevel(int level)
     {
-        yield return new WaitForSeconds(5);
+        StartCoroutine(ShowText());
+        while (!continueWithGame)
+        {
+
+            yield return null;
+
+        }
+        yield return new WaitForSeconds(2);
         GameManager.Instance.FinishLevel = false;
         GameManager.Instance.StartNewLevel(level);
-
-        Debug.Log("start again");
         nextLevelContainer.SetActive(false);
     }
+
+    IEnumerator ShowText()
+    {
+        for (int i = 0; i < Story.Instance.StoryTxt[0].Length + 1; i++)
+        {
+            currentText = Story.Instance.StoryTxt[0].Substring(0, i);
+            storyTxt.text = currentText;
+            yield return new WaitForSeconds(delay);
+        }
+        continueWithGame = true;
+    }
+
 
     #endregion
 
