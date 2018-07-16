@@ -268,7 +268,7 @@ public class PlayerController : MonoBehaviour {
                 else
                 {
                     GameManager.Instance.GetNewHole();
-                    GameManager.Instance.ScoreUpdate(5);
+                    GameManager.Instance.ScoreUpdate();
                 }
             }
             SlowTime(isOnAir);

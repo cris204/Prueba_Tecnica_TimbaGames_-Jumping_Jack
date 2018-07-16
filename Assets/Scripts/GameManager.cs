@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour {
 
     public void StartNewLevel(int level)
     {
-        holesUnits = 0;
+        holesUnits = 0;//organize
         GetNewHole(true);
         GetNewHole(true);
 
@@ -208,16 +208,18 @@ public class GameManager : MonoBehaviour {
         StartCoroutine(ChangeColorStunedByEnemy(color, bGColor));
     }
 
-    public void ScoreUpdate(int scoreUp)
+    public void ScoreUpdate()
     {
-        Score += scoreUp;
+        Score += (Level+1)*5;
+        CanvasManager.Instance.AssignScore();
     }
 
     public void HighScoreUpdate(int HighScoreUp)
     {
-        if (HighScore <= HighScoreUp)
+        if (HighScore < HighScoreUp)
         {
             HighScore = HighScoreUp;
+            CanvasManager.Instance.AssignHighScore();
         }
     }
    
@@ -230,10 +232,9 @@ public class GameManager : MonoBehaviour {
         if (Lifes <= 0)
         {
             HighScoreUpdate(Score);
-            SceneManager.LoadScene(0);
+            CanvasManager.Instance.EndGame(Level);
+            //SceneManager.LoadScene(0);
             
-            //Level = 0;
-           // StartNewLevel(Level);
         }
     }
 
@@ -245,6 +246,16 @@ public class GameManager : MonoBehaviour {
         player.transform.localPosition = Vector2.up * -3.33f;
 
         CanvasManager.Instance.AssignTxtNextLevel(Level);
+    }
+
+    public void ReStart()
+    {
+        Level = 0;
+        FinishLevel = true;
+        player.layer = 10;
+        player.transform.localPosition = Vector2.up * -3.33f;
+
+        StartNewLevel(Level);
     }
     
     #region corroutine

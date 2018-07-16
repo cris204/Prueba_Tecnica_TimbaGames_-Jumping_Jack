@@ -32,6 +32,14 @@ public class CanvasManager : MonoBehaviour {
     [SerializeField]
     private bool continueWithGame;
 
+    
+    [SerializeField]
+    private GameObject endGame;
+    [SerializeField]
+    private Text finalTxt;
+    [SerializeField]
+    private GameObject newHighScore;
+
     void Awake () {
         if (instance == null)
         {
@@ -46,14 +54,28 @@ public class CanvasManager : MonoBehaviour {
 
     private void Start()
     {
-
-
+        scoreTxt.text = string.Format("SC{0}", GameManager.Instance.Score);
+        highScoreTxt.text = string.Format("HI{0}", GameManager.Instance.HighScore);
     }
 
-    // Update is called once per frame
-    void Update () {
-        highScoreTxt.text = string.Format("HI{0}", GameManager.Instance.HighScore);
+
+    public void AssignScore()
+    {
+
         scoreTxt.text = string.Format("SC{0}", GameManager.Instance.Score);
+    }
+
+    public void AssignHighScore()
+    {
+
+        highScoreTxt.text = string.Format("HI{0}", GameManager.Instance.HighScore);
+        newHighScore.SetActive(true);
+    }
+
+    public void EndGame(int level)
+    {
+        finalTxt.text = string.Format("FINAL SCORE    {0}\nwith   {1} HAZARDS", GameManager.Instance.Score, level);
+        endGame.SetActive(true);
     }
 
     public void AssignTxtNextLevel(int level)
