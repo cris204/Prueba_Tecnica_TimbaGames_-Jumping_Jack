@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 1770024d6d24d54428eacd79f8d7b7c1
+guid: 8d5130dc06330ff47ad318a5a0c34591
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Walk_Character_SpriteSheet_0
-    21300002: Walk_Character_SpriteSheet_1
-    21300004: Walk_Character_SpriteSheet_2
+    21300000: Fall_Down_Character_SpriteSheet_0
+    21300002: Fall_Down_Character_SpriteSheet_1
+    21300004: Fall_Down_Character_SpriteSheet_2
   externalObjects: {}
   serializedVersion: 5
   mipmaps:
@@ -41,7 +41,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -96,61 +96,61 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Walk_Character_SpriteSheet_0
+      name: Fall_Down_Character_SpriteSheet_0
       rect:
         serializedVersion: 2
-        x: 18
-        y: 3
-        width: 33
-        height: 57
+        x: 7
+        y: 2
+        width: 42
+        height: 54
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cdb5e1b951c7ed047b0dcf792c324d4d
+      spriteID: 4c9fa4949277f5e4799b865359e01f8a
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walk_Character_SpriteSheet_1
+      name: Fall_Down_Character_SpriteSheet_1
       rect:
         serializedVersion: 2
-        x: 78
-        y: 4
-        width: 33
-        height: 56
+        x: 67
+        y: 2
+        width: 42
+        height: 54
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1d4a524a4c530e94ca8b52e6570b4fa8
+      spriteID: 5d5cd0eb64d29614499f972dd50084cf
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walk_Character_SpriteSheet_2
+      name: Fall_Down_Character_SpriteSheet_2
       rect:
         serializedVersion: 2
-        x: 138
-        y: 4
-        width: 33
-        height: 56
+        x: 127
+        y: 2
+        width: 42
+        height: 54
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2e8b3daa9e9860d48bf6486141c9e1d9
+      spriteID: a9e44506ae3c0eb4eab6239b979eb1f2
       vertices: []
       indices: 
       edges: []
@@ -158,7 +158,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: bcfcb6fb6b0d93f42bbb12bfe428f036
+    spriteID: 514281a316cc7d746af43f6f8ea5130f
     vertices: []
     indices: 
     edges: []

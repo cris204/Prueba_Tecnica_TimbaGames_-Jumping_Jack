@@ -23,6 +23,10 @@ public class PlayerController : MonoBehaviour {
     private bool stuned;
     [SerializeField]
     private bool startGame;
+    [SerializeField]
+    private Animator anim;
+    [SerializeField]
+    private SpriteRenderer playerSprite;
 
     [Header("Horizonatl Move")]
     private Vector3 speedVector;
@@ -68,6 +72,8 @@ public class PlayerController : MonoBehaviour {
     {
         rb = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<BoxCollider2D>();
+        anim = GetComponent<Animator>();
+        playerSprite = GetComponent<SpriteRenderer>();
         if (instance == null)
         {
             instance = this;
@@ -108,6 +114,15 @@ public class PlayerController : MonoBehaviour {
             speedVector.x = speed * h * Time.deltaTime;
             speedVector.y = 0;
             rb.velocity = speedVector;
+            if (speedVector.x > 0)
+            {
+                playerSprite.flipX = false;
+            }
+            else
+            {
+                playerSprite.flipX = true;
+            }
+            anim.SetFloat("Xspeed", Mathf.Abs( speedVector.x));
         }
     }
 
@@ -118,6 +133,8 @@ public class PlayerController : MonoBehaviour {
             canJump = true;
             canHorizontalMove = true;
             isJumping = false;
+            anim.SetBool("jump", false);
+
         }
         else
         {
@@ -130,6 +147,7 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetButtonDown(jumpInput) && canJump && !stuned)
         {
             isJumping = true;
+            anim.SetBool("jump", true);
             GameManager.Instance.ChangeTimeScale(0.5f);
             canJump = false;
             canHorizontalMove = false;
@@ -144,7 +162,20 @@ public class PlayerController : MonoBehaviour {
         GameManager.Instance.ChangeBackGroundColor(Color.white);
         stuned = true;
         rb.velocity = Vector3.zero;
-        StartCoroutine(StunedTime());
+
+        if (isOnAir)
+        {
+
+            anim.SetBool("fall_Down", true);
+            StartCoroutine(StunedTime(1));
+        }
+        else
+        {
+            anim.SetBool("stuned", true);
+            StartCoroutine(StunedTime(3));
+        }
+
+
     }
 
     void SlowTime(bool slow)
@@ -188,6 +219,7 @@ public class PlayerController : MonoBehaviour {
                 if (!isJumping)
                 {
                     Stun();
+                    
                     rb.velocity = Vector2.zero;
                 }
                 else
@@ -253,10 +285,15 @@ public class PlayerController : MonoBehaviour {
     #endregion
 
     #region Coroutines
-    IEnumerator StunedTime()
+    IEnumerator StunedTime(float time)
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(0.35f);
+        anim.SetBool("fall_Down", false);
+        anim.SetBool("stuned", true);
+        yield return new WaitForSeconds(time);
+        anim.SetBool("stuned", false);
         stuned = false;
+
     }
 
 
