@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+
     public float timeSpeed;
     [Header("General")]
     [SerializeField]
@@ -84,18 +85,19 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    private void Start()
+    void Start()
     {
         startGame = true;
         canHorizontalMove = true;
         canJump = true;
+
     }
-    // Update is called once per frame
-    void Update () {
+
+    void Update()
+    {
         h = Input.GetAxis(horizontalInput);
         timeSpeed = Time.timeScale;
-
-	}
+    }
 
     private void FixedUpdate()
     {
@@ -220,7 +222,6 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-
     void SlowTime(bool slow)
     {
         if (slow)
@@ -232,6 +233,17 @@ public class PlayerController : MonoBehaviour {
             GameManager.Instance.ChangeTimeScale(1);
         }
     }
+
+    public void RestartAnimations()
+    {
+        StopCoroutine("StunedTime");
+        anim.SetBool("jump", false);
+        anim.SetBool("fall_Down", false);
+        anim.SetBool("stuned", false);
+
+
+    }
+
 
     #region OnTrigger
 
@@ -337,6 +349,36 @@ public class PlayerController : MonoBehaviour {
         anim.SetBool("stuned", false);
         stuned = false;
 
+    }
+
+    #endregion
+
+    #region Get and Set
+
+    public bool Stuned
+    {
+        get
+        {
+            return stuned;
+        }
+
+        set
+        {
+            stuned = value;
+        }
+    }
+
+    public bool StartGame
+    {
+        get
+        {
+            return startGame;
+        }
+
+        set
+        {
+            startGame = value;
+        }
     }
 
 

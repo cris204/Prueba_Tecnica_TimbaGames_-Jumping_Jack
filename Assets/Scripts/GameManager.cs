@@ -85,8 +85,8 @@ public class GameManager : MonoBehaviour {
     public void StartNewLevel(int level)
     {
         holesUnits = 0;//organize
-        GetNewHole(true);
-        GetNewHole(true);
+        GetStartHoles();
+        GetStartHoles();
 
         for (int i = 0; i < level; i++)
         {
@@ -130,22 +130,27 @@ public class GameManager : MonoBehaviour {
 
     #region Holes
 
-    public void GetNewHole(bool startLevel=false)
+    public void GetStartHoles()
+    {
+        holeToActive = HolePool.Instance.GetHoles(initialSpeed, false);
+        initialSpeed *= -1;
+        posToSpawnHole.x = Random.Range(-7.66f, 7.66f);
+        posToSpawnHole.y = lanesPosition[Floor].transform.localPosition.y;
+        holeToActive.transform.localPosition = posToSpawnHole;
+        holeBehaviour = holeToActive.GetComponent<HoleBehaviour>();
+        holeBehaviour.Floor = Floor;
+        holesUnits++;
+
+    }
+
+    public void GetNewHole()
     {
         if (holesUnits < 8)
         {
-            if (startLevel)
-            {
 
-                holeToActive = HolePool.Instance.GetHoles(initialSpeed, false);
-                initialSpeed *=-1;
+            Floor = Random.Range(0, lanesPosition.Length);
+            holeToActive = HolePool.Instance.GetHoles(0, true);
 
-            }
-            else
-            {
-                Floor = Random.Range(0, lanesPosition.Length);
-                holeToActive = HolePool.Instance.GetHoles(0, true);
-            }
             posToSpawnHole.x = Random.Range(-7.66f, 7.66f);
             posToSpawnHole.y = lanesPosition[Floor].transform.localPosition.y;
             holeToActive.transform.localPosition = posToSpawnHole;
@@ -233,28 +238,36 @@ public class GameManager : MonoBehaviour {
         {
             HighScoreUpdate(Score);
             CanvasManager.Instance.EndGame(Level);
-            //SceneManager.LoadScene(0);
-            
+            FinishLevel = true;
+            // ReStart();
+
         }
     }
 
     public void LevelUp()
     {
         Level += 1;
+        if(Level==6|| Level == 11|| Level == 16)
+        {
+            Lifes++;
+            CanvasManager.Instance.ExtraLife();
+        }
         FinishLevel = true;
         player.layer = 10;
         player.transform.localPosition = Vector2.up * -3.33f;
-
         CanvasManager.Instance.AssignTxtNextLevel(Level);
     }
 
     public void ReStart()
     {
+        FinishLevel = false;
         Level = 0;
-        FinishLevel = true;
         player.layer = 10;
         player.transform.localPosition = Vector2.up * -3.33f;
-
+        PlayerController.Instance.Stuned = false;
+        PlayerController.Instance.RestartAnimations();
+        PlayerController.Instance.StartGame=true;
+        Lifes = 6;
         StartNewLevel(Level);
     }
     

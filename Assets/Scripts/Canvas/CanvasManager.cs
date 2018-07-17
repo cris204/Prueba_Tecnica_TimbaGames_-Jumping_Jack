@@ -30,6 +30,8 @@ public class CanvasManager : MonoBehaviour {
     private float delay = 0.1f;
     private string currentText;
     [SerializeField]
+    private GameObject extraLife;
+    [SerializeField]
     private bool continueWithGame;
 
     
@@ -58,7 +60,6 @@ public class CanvasManager : MonoBehaviour {
         highScoreTxt.text = string.Format("HI{0}", GameManager.Instance.HighScore);
     }
 
-
     public void AssignScore()
     {
 
@@ -76,6 +77,7 @@ public class CanvasManager : MonoBehaviour {
     {
         finalTxt.text = string.Format("FINAL SCORE    {0}\nwith   {1} HAZARDS", GameManager.Instance.Score, level);
         endGame.SetActive(true);
+        StartCoroutine(PressEnterToContinue());
     }
 
     public void AssignTxtNextLevel(int level)
@@ -100,12 +102,16 @@ public class CanvasManager : MonoBehaviour {
         lifes.fillAmount -= 0.1667f;
     }
 
+    public void ExtraLife()
+    {
+        extraLife.SetActive(true);
+    }
 
     #region Corroutine
 
     IEnumerator ContinueNextLevel(int level)
     {
-        StartCoroutine(ShowText());
+        StartCoroutine(ShowText(level));
         while (!continueWithGame)
         {
 
@@ -116,19 +122,32 @@ public class CanvasManager : MonoBehaviour {
         GameManager.Instance.FinishLevel = false;
         GameManager.Instance.StartNewLevel(level);
         nextLevelContainer.SetActive(false);
+        extraLife.SetActive(false);
     }
 
-    IEnumerator ShowText()
+    IEnumerator ShowText(int level)
     {
-        for (int i = 0; i < Story.Instance.StoryTxt[0].Length + 1; i++)
+        for (int i = 0; i < Story.Instance.StoryTxt[level-1].Length + 1; i++)
         {
-            currentText = Story.Instance.StoryTxt[0].Substring(0, i);
+            currentText = Story.Instance.StoryTxt[level-1].Substring(0, i);
             storyTxt.text = currentText;
             yield return new WaitForSeconds(delay);
         }
         continueWithGame = true;
     }
 
+    IEnumerator PressEnterToContinue()
+    {
+        while (!Input.GetButtonDown("Enter"))
+        {
+            yield return null;
+        }
+
+        StopAllCoroutines();
+        endGame.SetActive(false);
+        lifes.fillAmount = 1;
+        GameManager.Instance.ReStart();
+    }
 
     #endregion
 

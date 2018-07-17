@@ -34,6 +34,7 @@ public class HoleBehaviour : MonoBehaviour {
     }
 
     void FixedUpdate() {
+
         if (!GameManager.Instance.SlowTime)
         {
             rb.velocity = speedVector * Time.deltaTime;

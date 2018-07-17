@@ -15,7 +15,7 @@ public class EnemyPool : MonoBehaviour {
     }
 
     [SerializeField]
-    private GameObject enemy;
+    private GameObject[] enemies;
 
     [SerializeField]
     private int size;
@@ -56,7 +56,7 @@ public class EnemyPool : MonoBehaviour {
 
     private void CreateEnemies()
     {
-        created = Instantiate(enemy);
+        created = Instantiate(enemies[0]);
         created.gameObject.SetActive(false);
         enemiesList.Add(created);
 

@@ -23,6 +23,14 @@ public class EnemyBehaviour : MonoBehaviour {
         speedVector = Vector2.right * HorizontalSpeed;
     }
 
+    private void Update()
+    {
+        if (GameManager.Instance.FinishLevel)
+        {
+            EnemyPool.Instance.DisableEnemy(this.gameObject);
+        }
+    }
+
     void FixedUpdate()
     {
         if (!GameManager.Instance.SlowTime)
