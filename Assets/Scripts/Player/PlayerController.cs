@@ -15,8 +15,6 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-
-    public float timeSpeed;
     [Header("General")]
     [SerializeField]
     private Rigidbody2D rb;
@@ -96,7 +94,6 @@ public class PlayerController : MonoBehaviour {
     void Update()
     {
         h = Input.GetAxis(horizontalInput);
-        timeSpeed = Time.timeScale;
     }
 
     private void FixedUpdate()
@@ -110,7 +107,7 @@ public class PlayerController : MonoBehaviour {
     void Move()
     {
 
-        if ( h != 0 && canHorizontalMove && !isOnAir && !stuned)
+        if ( h != 0 && canHorizontalMove && !isOnAir && !stuned && !GameManager.Instance.FinishLevel)
         {
 
             speedVector.x = speed * h * Time.deltaTime;
@@ -147,7 +144,7 @@ public class PlayerController : MonoBehaviour {
 
         Debug.DrawRay(transform.position, Vector2.down * distance);
 
-        if (Input.GetButtonDown(jumpInput) && canJump && !stuned)
+        if (Input.GetButtonDown(jumpInput) && canJump && !stuned && !GameManager.Instance.FinishLevel)
         {
             isJumping = true;
             anim.SetBool("jump", true);
@@ -328,7 +325,7 @@ public class PlayerController : MonoBehaviour {
         anim.SetBool("stuned", true);
         yield return new WaitForSeconds(time);
         anim.SetBool("stuned", false);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.15f);
         stuned = false;
     }
 

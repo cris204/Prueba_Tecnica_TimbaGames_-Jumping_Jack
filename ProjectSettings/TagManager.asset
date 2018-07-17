@@ -17,6 +17,7 @@ TagManager:
   - Left_Border
   - Enemy
   - Danger_Zone
+  - Down_Border
   layers:
   - Default
   - TransparentFX
@@ -35,7 +36,7 @@ TagManager:
   - NoColisionWithPlayer
   - Enemy
   - UpBorder
-  - Enemy_Duque
+  - DownBorder
   - 
   - 
   - 

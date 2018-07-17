@@ -33,6 +33,10 @@ public class GameManager : MonoBehaviour {
     private bool finishLevel;
     [SerializeField]
     private GameObject player;
+    [SerializeField]
+    private Transform initialPosPlayer;
+    [SerializeField]
+    private bool finishGame;
 
     [Header("BackGround")]
     [SerializeField]
@@ -85,7 +89,7 @@ public class GameManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         SetRandom();
-        StartNewLevel(Level);
+        //StartNewLevel(Level);
 
     }
 
@@ -98,6 +102,7 @@ public class GameManager : MonoBehaviour {
         {
             GetNewEnemy();
         }
+        player.transform.localPosition = initialPosPlayer.localPosition;
     }
 
     #region Enemies
@@ -246,13 +251,13 @@ public class GameManager : MonoBehaviour {
             CanvasManager.Instance.EndGame(Level);
             Score = 0;
             FinishLevel = true;
-            // ReStart();
 
         }
     }
 
     public void LevelUp()
     {
+        player.layer = 10;
         Level += 1;
         if(Level==6|| Level == 11|| Level == 16)
         {
@@ -260,8 +265,7 @@ public class GameManager : MonoBehaviour {
             CanvasManager.Instance.ExtraLife();
         }
         FinishLevel = true;
-        player.layer = 10;
-        player.transform.localPosition = Vector2.up * -3.33f;
+       // player.transform.localPosition = initialPosPlayer.localPosition;
         CanvasManager.Instance.AssignTxtNextLevel(Level);
     }
 
@@ -270,17 +274,19 @@ public class GameManager : MonoBehaviour {
         FinishLevel = false;
         Level = 0;
         player.layer = 10;
-        player.transform.localPosition = Vector2.up * -3.33f;
+
         PlayerController.Instance.Stuned = false;
         PlayerController.Instance.RestartAnimations();
         PlayerController.Instance.StartGame=true;
+
         Lifes = 6;
         StartNewLevel(Level);
     }
 
 
     #region Random enemies
-    public void SetRandom()
+
+    void SetRandom()
     {
         for (int i = 0; i < 10; i++)
         {
@@ -340,6 +346,7 @@ public class GameManager : MonoBehaviour {
 
 
     #region Gets and Sets
+
     public int Floor
     {
         get
@@ -441,6 +448,19 @@ public class GameManager : MonoBehaviour {
         set
         {
             lifes = value;
+        }
+    }
+
+    public bool FinishGame
+    {
+        get
+        {
+            return finishGame;
+        }
+
+        set
+        {
+            finishGame = value;
         }
     }
 

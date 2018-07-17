@@ -33,14 +33,14 @@ public class CanvasManager : MonoBehaviour {
     private GameObject extraLife;
     [SerializeField]
     private bool continueWithGame;
-
-    
     [SerializeField]
     private GameObject endGame;
     [SerializeField]
     private Text finalTxt;
     [SerializeField]
     private GameObject newHighScore;
+    [SerializeField]
+    private GameObject introCanvas;
 
     void Awake () {
         if (instance == null)
@@ -56,6 +56,7 @@ public class CanvasManager : MonoBehaviour {
 
     private void Start()
     {
+        GameManager.Instance.FinishLevel = true;
         scoreTxt.text = string.Format("SC{0}", GameManager.Instance.Score);
         highScoreTxt.text = string.Format("HI{0}", GameManager.Instance.HighScore);
     }
@@ -105,6 +106,13 @@ public class CanvasManager : MonoBehaviour {
     public void ExtraLife()
     {
         extraLife.SetActive(true);
+    }
+
+    public void StartWithGame()
+    {
+        GameManager.Instance.FinishLevel = false;
+        introCanvas.SetActive(false);
+        GameManager.Instance.StartNewLevel(0);
     }
 
     #region Corroutine

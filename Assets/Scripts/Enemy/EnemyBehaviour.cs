@@ -26,10 +26,10 @@ public class EnemyBehaviour : MonoBehaviour {
 
     private void Update()
     {
-        /*if (GameManager.Instance.FinishLevel)
+        if (GameManager.Instance.FinishGame)
         {
             EnemyPool.Instance.DisableEnemy(this.gameObject);
-        }*/
+        }
     }
 
     void FixedUpdate()
