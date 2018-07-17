@@ -116,6 +116,7 @@ public class PlayerController : MonoBehaviour {
             speedVector.x = speed * h * Time.deltaTime;
             speedVector.y = 0;
             rb.velocity = speedVector;
+            anim.SetFloat("Xspeed", Mathf.Abs(speedVector.x));
             if (speedVector.x > 0)
             {
                 playerSprite.flipX = false;
@@ -124,7 +125,7 @@ public class PlayerController : MonoBehaviour {
             {
                 playerSprite.flipX = true;
             }
-            anim.SetFloat("Xspeed", Mathf.Abs( speedVector.x));
+
         }
     }
 
@@ -161,7 +162,6 @@ public class PlayerController : MonoBehaviour {
 
     void StunByFallDown()
     {
-        GameManager.Instance.ChangeBGColorNormalStun(Color.white);
         stuned = true;
         rb.velocity = Vector3.zero;
 
@@ -186,17 +186,8 @@ public class PlayerController : MonoBehaviour {
         stuned = true;
         rb.velocity = Vector3.zero;
 
-        if (isOnAir)
-        {
-
-            anim.SetBool("fall_Down", true);
-            StartCoroutine(StunedTime(1));
-        }
-        else
-        {
-            anim.SetBool("stuned", true);
-            StartCoroutine(StunedTime(3));
-        }
+        anim.SetBool("stuned", true);
+        StartCoroutine(StunedTime(0.5f));
 
 
     }
@@ -206,18 +197,8 @@ public class PlayerController : MonoBehaviour {
         GameManager.Instance.ChangeBGColorNormalStun(Color.white);
         stuned = true;
         rb.velocity = Vector3.zero;
-
-        if (isOnAir)
-        {
-
-            anim.SetBool("fall_Down", true);
-            StartCoroutine(StunedTime(1));
-        }
-        else
-        {
-            anim.SetBool("stuned", true);
-            StartCoroutine(StunedTime(3));
-        }
+        anim.SetBool("stuned", true);
+        StartCoroutine(StunedTime(3));
 
 
     }
@@ -273,7 +254,7 @@ public class PlayerController : MonoBehaviour {
                 isOnAir = true;
                 if (!isJumping)
                 {
-                    NormalStun();
+                    StunByFallDown();
                     
                     rb.velocity = Vector2.zero;
                 }
@@ -347,8 +328,8 @@ public class PlayerController : MonoBehaviour {
         anim.SetBool("stuned", true);
         yield return new WaitForSeconds(time);
         anim.SetBool("stuned", false);
+        yield return new WaitForSeconds(0.1f);
         stuned = false;
-
     }
 
     #endregion

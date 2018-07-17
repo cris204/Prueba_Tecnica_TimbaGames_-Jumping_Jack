@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyPool : MonoBehaviour {
+public class EnemyPool : MonoBehaviour
+{
 
     private static EnemyPool instance;
 
@@ -19,12 +20,16 @@ public class EnemyPool : MonoBehaviour {
 
     [SerializeField]
     private int size;
+    [SerializeField]
+    private int sizePerEnemy;
+    [SerializeField]
+    private int typeOfEnemies;
 
     [SerializeField]
     private List<GameObject> enemiesList;
 
     private GameObject created;
-    private GameObject enemyToActivate;
+    public GameObject enemyToActivate;
     private EnemyBehaviour enemyBehaviour;
     [SerializeField]
     private float speedDirection;
@@ -46,40 +51,43 @@ public class EnemyPool : MonoBehaviour {
 
     private void Prepare()
     {
-        enemiesList = new List<GameObject>();
-        for (int i = 0; i < size; i++)
-        {
-            CreateEnemies();
-        }
 
+        for (int i = 0; i < sizePerEnemy; i++)
+        {
+
+            for (typeOfEnemies = 0; typeOfEnemies < 10; typeOfEnemies++)
+            {
+                CreateEnemies(typeOfEnemies);
+            }
+
+        }
     }
 
-    private void CreateEnemies()
+    private void CreateEnemies(int type)
     {
-        created = Instantiate(enemies[0]);
+        created = Instantiate(enemies[type]);
+        created.name = created.name.Replace("(Clone)", "");
+        //created.GetComponent<SpriteRenderer>().color = Color.red;
         created.gameObject.SetActive(false);
         enemiesList.Add(created);
-
-
     }
 
-    public GameObject GetEnemy()
+    public GameObject GetEnemy(int id)
     {
-        if (enemiesList.Count == 0)
+        //if (enemiesList.Count == 0)
+        Debug.Log(enemiesList.Contains(enemies[id]));
+        if (enemiesList.Contains(enemies[id]))
         {
-            CreateEnemies();
+            CreateEnemies(id);
         }
-        return QuantityEnemies();
+        return QuantityEnemies(id);
     }
 
-    private GameObject QuantityEnemies()
+    private GameObject QuantityEnemies(int id)
     {
-        enemyToActivate = enemiesList[enemiesList.Count - 1];
-        enemiesList.RemoveAt(enemiesList.Count - 1);
-        enemyBehaviour = enemyToActivate.GetComponent<EnemyBehaviour>();
 
-        enemyBehaviour.HorizontalSpeed = speedDirection;
-
+        enemyToActivate = enemiesList.Find(i => i.name == enemies[id].name);
+        enemiesList.Remove(enemyToActivate);
         enemyToActivate.gameObject.SetActive(true);
 
         return enemyToActivate;

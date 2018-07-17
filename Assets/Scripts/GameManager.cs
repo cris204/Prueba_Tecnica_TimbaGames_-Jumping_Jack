@@ -55,6 +55,10 @@ public class GameManager : MonoBehaviour {
     private GameObject enemyToActive;
     private EnemyBehaviour enemyBehaviour;
     private int enemiesUnits;
+    [SerializeField]
+    private List<int> enemiesUsed=new List<int>();
+    private int randomEnemy;
+    private int enemySelected;
     private int floorEnemy;
 
 
@@ -72,14 +76,17 @@ public class GameManager : MonoBehaviour {
 
         Floor = Random.Range(0, lanesPosition.Length);
         FloorEnemy = Random.Range(0, lanesPosition.Length);
-       // DontDestroyOnLoad(this.gameObject);
+
+        // DontDestroyOnLoad(this.gameObject);
     }
 
 
 
     // Use this for initialization
     void Start () {
+        SetRandom();
         StartNewLevel(Level);
+
     }
 
     public void StartNewLevel(int level)
@@ -87,31 +94,29 @@ public class GameManager : MonoBehaviour {
         holesUnits = 0;//organize
         GetStartHoles();
         GetStartHoles();
-
-        for (int i = 0; i < level; i++)
+        if (level > 0)
         {
-
             GetNewEnemy();
         }
     }
 
     #region Enemies
 
-    public void GetNewEnemy()
+    public void GetNewEnemy()//organize at random 
     {
-
         posToSpawn.x = Random.Range(-7.66f, 7.66f);
         FloorEnemy = Random.Range(0, lanesPosition.Length);
         posToSpawn.y = lanesPosition[FloorEnemy].transform.localPosition.y + 0.4f;
-        enemyToActive = EnemyPool.Instance.GetEnemy();
+        enemyToActive = EnemyPool.Instance.GetEnemy(randomNum());
+       // enemyToActive = EnemyPool.Instance.GetEnemy(5);
         enemyToActive.transform.localPosition = posToSpawn;
         enemyBehaviour = enemyToActive.GetComponent<EnemyBehaviour>();
         enemyBehaviour.Floor = FloorEnemy;
     }
 
-    public void GetEnemy(int oldFloor)
+    public void GetEnemy(int oldFloor,int id)
     {
-        enemyToActive = EnemyPool.Instance.GetEnemy();
+        enemyToActive = EnemyPool.Instance.GetEnemy(id);
         enemyBehaviour = enemyToActive.GetComponent<EnemyBehaviour>();
         enemyBehaviour.Floor = oldFloor;
         enemyBehaviour.Floor++;
@@ -120,7 +125,7 @@ public class GameManager : MonoBehaviour {
             enemyBehaviour.Floor = 0;
 
         }
-        posToSpawn.x = 7.66f;
+        posToSpawn.x = 7.353f;
         posToSpawn.y = lanesPosition[enemyBehaviour.Floor].transform.localPosition.y + 0.4f;
         enemyToActive.transform.localPosition = posToSpawn;
 
@@ -224,6 +229,7 @@ public class GameManager : MonoBehaviour {
         if (HighScore < HighScoreUp)
         {
             HighScore = HighScoreUp;
+
             CanvasManager.Instance.AssignHighScore();
         }
     }
@@ -238,6 +244,7 @@ public class GameManager : MonoBehaviour {
         {
             HighScoreUpdate(Score);
             CanvasManager.Instance.EndGame(Level);
+            Score = 0;
             FinishLevel = true;
             // ReStart();
 
@@ -270,7 +277,35 @@ public class GameManager : MonoBehaviour {
         Lifes = 6;
         StartNewLevel(Level);
     }
-    
+
+
+    #region Random enemies
+    public void SetRandom()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            enemiesUsed.Add(i);
+        }
+    }
+
+    int randomNum()
+    {
+
+        if (enemiesUsed.Count == 0)
+        {
+            SetRandom();
+        }
+        randomEnemy = Random.Range(0, enemiesUsed.Count);
+        enemySelected = enemiesUsed[randomEnemy];
+        Debug.Log(enemiesUsed[randomEnemy]);
+        enemiesUsed.RemoveAt(randomEnemy);
+
+        return enemySelected;
+    }
+
+#endregion
+
+
     #region corroutine
 
     IEnumerator ChangeColorStuned(Color32 color,Color32 colorBG)

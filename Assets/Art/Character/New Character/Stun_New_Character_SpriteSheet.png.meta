@@ -99,17 +99,17 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 12
-        width: 44
-        height: 32
+        y: 0
+        width: 60
+        height: 60
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c8766f33de3ffa647abcfc20eed0098c
+      spriteID: 16c94d34e6006b54fbe8b67f9eb11f9d
       vertices: []
       indices: 
       edges: []
@@ -118,18 +118,18 @@ TextureImporter:
       name: Stun_New_Character_SpriteSheet_1
       rect:
         serializedVersion: 2
-        x: 44
-        y: 12
-        width: 44
-        height: 32
+        x: 60
+        y: 0
+        width: 60
+        height: 60
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: daf717c0d17a45f409938c84403433cc
+      spriteID: d5b9cf8f73137c44eb5fa294c7ee4bc4
       vertices: []
       indices: 
       edges: []

@@ -9,7 +9,8 @@ public class EnemyBehaviour : MonoBehaviour {
     [SerializeField]
     private float horizontalSpeed;
     private Vector2 speedVector;
-    public int floor;
+    private int floor;
+    public int id;
 
 
     void Awake()
@@ -25,10 +26,10 @@ public class EnemyBehaviour : MonoBehaviour {
 
     private void Update()
     {
-        if (GameManager.Instance.FinishLevel)
+        /*if (GameManager.Instance.FinishLevel)
         {
             EnemyPool.Instance.DisableEnemy(this.gameObject);
-        }
+        }*/
     }
 
     void FixedUpdate()
@@ -46,36 +47,28 @@ public class EnemyBehaviour : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (GameManager.Instance.FinishLevel)
+       /* if (GameManager.Instance.FinishLevel)
         {
             EnemyPool.Instance.DisableEnemy(this.gameObject);
-        }
+        }*/
 
         if (other.CompareTag("Left_Border"))
         {
-            GameManager.Instance.GetEnemy(Floor);
+            GameManager.Instance.GetEnemy(Floor, id);
         }
-    
+
     }
 
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (HorizontalSpeed > 0)
-        {
-            if (other.CompareTag("Right_Border"))
-            {
-                EnemyPool.Instance.DisableEnemy(this.gameObject);
-            }
-        }
-        else
-        {
-            if (other.CompareTag("Left_Border"))
-            {
-                EnemyPool.Instance.DisableEnemy(this.gameObject);
 
-            }
+        if (other.CompareTag("Left_Border"))
+        {
+            EnemyPool.Instance.DisableEnemy(this.gameObject);
+
         }
+
     }
 
     #region Gets and Sets

@@ -120,7 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   horizontalSpeed: -200
-  floor: 0
+  id: 3
 --- !u!212 &212758786733061880
 SpriteRenderer:
   m_ObjectHideFlags: 1

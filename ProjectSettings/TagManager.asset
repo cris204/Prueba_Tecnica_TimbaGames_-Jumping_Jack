@@ -35,7 +35,7 @@ TagManager:
   - NoColisionWithPlayer
   - Enemy
   - UpBorder
-  - 
+  - Enemy_Duque
   - 
   - 
   - 
