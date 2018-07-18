@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Hole
+  - Hole_Up
+  - Hole_Down
+  - Up_Border
+  - Lateral_Border
+  - Ground
+  - Player_Head
+  - Stun_Area
+  - Lateral_Border_Holes
+  - Right_Border
+  - Left_Border
+  - Enemy
+  - Danger_Zone
+  - Down_Border
+  - Dude
+  - Duque
+  - Gun
+  - Iluminati
+  - Pack
+  - Rat
+  - Shoe
+  - Skeletor
+  - Sombreroski
+  - Tuculu
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Ground
+  - Hole
+  - Player
+  - Invulnerability
+  - Border
+  - PlayerHead
+  - NoColisionWithPlayer
+  - Enemy
+  - UpBorder
+  - DownBorder
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
