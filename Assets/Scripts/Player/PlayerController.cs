@@ -152,6 +152,7 @@ public class PlayerController : MonoBehaviour {
             canJump = false;
             canHorizontalMove = false;
             speedVector.x = 0;
+            anim.SetFloat("Xspeed", Mathf.Abs(speedVector.x));
             speedVector.y = jumpSpeed * Time.deltaTime;
             rb.velocity = speedVector;
         }
@@ -214,11 +215,12 @@ public class PlayerController : MonoBehaviour {
 
     public void RestartAnimations()
     {
+        speedVector = Vector3.zero;
         StopCoroutine("StunedTime");
         anim.SetBool("jump", false);
         anim.SetBool("fall_Down", false);
         anim.SetBool("stuned", false);
-
+        anim.SetFloat("Xspeed", Mathf.Abs(speedVector.x));
 
     }
 

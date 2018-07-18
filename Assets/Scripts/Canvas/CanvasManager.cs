@@ -57,7 +57,7 @@ public class CanvasManager : MonoBehaviour {
     private void Start()
     {
         GameManager.Instance.FinishLevel = true;
-        scoreTxt.text = string.Format("SC{0}", GameManager.Instance.Score);
+        AssignScore();
         highScoreTxt.text = string.Format("HI{0}", GameManager.Instance.HighScore);
     }
 
@@ -101,12 +101,13 @@ public class CanvasManager : MonoBehaviour {
 
     public void LessLifesImage()
     {
-        lifes.fillAmount -= 0.1667f;
+        lifes.fillAmount -= 0.111f;
     }
 
     public void ExtraLife()
     {
         extraLife.SetActive(true);
+        lifes.fillAmount += 0.111f;
     }
 
     public void StartWithGame()
@@ -129,7 +130,7 @@ public class CanvasManager : MonoBehaviour {
         }
         yield return new WaitForSeconds(2);
 
-        if (level < 20)
+        if (level <= 20)
         {
             GameManager.Instance.FinishLevel = false;
             GameManager.Instance.StartNewLevel(level);
@@ -138,7 +139,6 @@ public class CanvasManager : MonoBehaviour {
         }
         else
         {
-
             EndGame(level);
         }
         nextLevelContainer.SetActive(false);
@@ -164,7 +164,7 @@ public class CanvasManager : MonoBehaviour {
 
         StopAllCoroutines();
         endGame.SetActive(false);
-        lifes.fillAmount = 1;
+        lifes.fillAmount = 0.666f;
         
         GameManager.Instance.ReStart();
         scoreTxt.text = string.Format("SC{0}", GameManager.Instance.Score);
