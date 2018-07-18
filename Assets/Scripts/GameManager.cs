@@ -250,7 +250,6 @@ public class GameManager : MonoBehaviour {
     {
         Lifes--;
         CanvasManager.Instance.LessLifesImage();
-        Debug.Log(Lifes);
 
         if (Lifes <= 0)
         {

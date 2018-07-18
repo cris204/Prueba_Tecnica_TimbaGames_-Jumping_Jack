@@ -65,7 +65,6 @@ public class CanvasManager : MonoBehaviour {
 
     public void AssignScore()
     {
-        Debug.Log("S");
         scoreTxt.text = string.Format("SC{0}", GameManager.Instance.Score);
     }
 
