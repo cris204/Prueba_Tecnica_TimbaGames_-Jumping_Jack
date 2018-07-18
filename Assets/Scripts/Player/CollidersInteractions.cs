@@ -37,14 +37,6 @@ public class CollidersInteractions : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Stun_Area"))
-        {
-            Debug.Log("Stun");
-        }
-    }
-
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Hole"))

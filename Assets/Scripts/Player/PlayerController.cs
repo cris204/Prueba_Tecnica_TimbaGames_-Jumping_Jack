@@ -155,7 +155,6 @@ public class PlayerController : MonoBehaviour {
             canHorizontalMove = false;
         }
 
-        Debug.DrawRay(transform.position, Vector2.down * distance);
 
         if (pressJump && canJump && !stuned && !GameManager.Instance.FinishLevel)
         {
@@ -232,7 +231,6 @@ public class PlayerController : MonoBehaviour {
     public void RestartAnimations()
     {
         gameObject.layer = 10;
-        Debug.Log(gameObject.layer);
         speedVector = Vector3.zero;
         stuned = false;
         StopCoroutine("StunedTime");
