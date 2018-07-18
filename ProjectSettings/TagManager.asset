@@ -18,6 +18,16 @@ TagManager:
   - Enemy
   - Danger_Zone
   - Down_Border
+  - Dude
+  - Duque
+  - Gun
+  - Iluminati
+  - Pack
+  - Rat
+  - Shoe
+  - Skeletor
+  - Sombreroski
+  - Tuculu
   layers:
   - Default
   - TransparentFX

@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-       // QualitySettings.vSyncCount = 0;
+        QualitySettings.vSyncCount = 0;
         SetRandom();
        // StartNewLevel(Level);
 
@@ -105,6 +105,7 @@ public class GameManager : MonoBehaviour {
         {
             GetNewEnemy();
         }
+        PlayerController.Instance.RestartAnimations();
         player.transform.localPosition = initialPosPlayer.localPosition;
         PlayerController.Instance.StartLevel = true;
     }
@@ -284,7 +285,6 @@ public class GameManager : MonoBehaviour {
         Level = 0;
         player.layer = 10;
         PlayerController.Instance.Stuned = false;
-        PlayerController.Instance.RestartAnimations();
         FinishGame = false;
         Lifes = 6;
         enemiesUsed.Clear();

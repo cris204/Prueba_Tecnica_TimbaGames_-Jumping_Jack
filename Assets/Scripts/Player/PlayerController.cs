@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour {
 
     [SerializeField]
     private string jumpInput;
+    [SerializeField]
+    private bool pressJump;
 
     [Header("Jump")]
     RaycastHit2D hit;
@@ -99,7 +101,13 @@ public class PlayerController : MonoBehaviour {
 
     void Update()
     {
+        if (Input.GetButtonDown(jumpInput)){
+            pressJump = true;
+        }
+
         h = Input.GetAxis(horizontalInput);
+
+
     }
 
     private void FixedUpdate()
@@ -151,7 +159,7 @@ public class PlayerController : MonoBehaviour {
 
         Debug.DrawRay(transform.position, Vector2.down * distance);
 
-        if (Input.GetButtonDown(jumpInput) && canJump && !stuned && !GameManager.Instance.FinishLevel)
+        if (pressJump && canJump && !stuned && !GameManager.Instance.FinishLevel)
         {
             AssignAudio(1);
             isJumping = true;
@@ -164,6 +172,7 @@ public class PlayerController : MonoBehaviour {
             speedVector.y = jumpSpeed * Time.deltaTime;
             rb.velocity = speedVector;
         }
+        pressJump = false;
     }
 
     void StunByFallDown()
@@ -267,14 +276,14 @@ public class PlayerController : MonoBehaviour {
             gameObject.layer = 11;
             if (!isOnAir)
             {
-                AssignAudio(4,true);
+
                 canHorizontalMove = false;
                 canJump = false;
                 isOnAir = true;
                 if (!isJumping)
                 {
                     StunByFallDown();
-                    
+                    AssignAudio(4, false);
                     rb.velocity = Vector2.zero;
                 }
                 else
@@ -348,7 +357,10 @@ public class PlayerController : MonoBehaviour {
     IEnumerator StunedTime(float time)
     {
         yield return new WaitForSeconds(0.35f);
-        AssignAudio(3,true);
+        if (!GameManager.Instance.FinishLevel)
+        {
+            AssignAudio(3, true);
+        }
         anim.SetBool("fall_Down", false);
         anim.SetBool("stuned", true);
         yield return new WaitForSeconds(time);

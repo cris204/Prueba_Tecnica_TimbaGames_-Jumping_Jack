@@ -249,7 +249,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.059937574}
+  m_Offset: {x: 0, y: -0.03}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -260,7 +260,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.1125, y: 0.11612515}
+  m_Size: {x: 0.1125, y: 0.05625}
   m_EdgeRadius: 0
 --- !u!1 &183323174
 GameObject:
@@ -627,101 +627,6 @@ GameObject:
   m_PrefabParentObject: {fileID: 1039338440123060, guid: 8de11e2d70bf99640ac00616df8b8b8e,
     type: 2}
   m_PrefabInternal: {fileID: 686321579}
---- !u!82 &251600301
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 251600294}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &308726127
 GameObject:
   m_ObjectHideFlags: 0
@@ -1410,10 +1315,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d98092e1457cf354da398d07495a0cc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifes: 1
+  lifes: 6
   score: 0
   highScore: 0
-  level: 20
+  level: 0
   lanesPosition:
   - {fileID: 1630443119}
   - {fileID: 1941965218}
@@ -2008,11 +1913,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114487924824449510, guid: 8de11e2d70bf99640ac00616df8b8b8e,
-        type: 2}
-      propertyPath: clipsPlayer.Array.size
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 4371919552860204, guid: 8de11e2d70bf99640ac00616df8b8b8e, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0.277
@@ -2045,41 +1945,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 114487924824449510, guid: 8de11e2d70bf99640ac00616df8b8b8e,
-        type: 2}
-      propertyPath: clipsPlayer.Array.data[0]
-      value: 
-      objectReference: {fileID: 8300000, guid: 820bad45db2ed0143a9323347135d66b, type: 3}
-    - target: {fileID: 114487924824449510, guid: 8de11e2d70bf99640ac00616df8b8b8e,
-        type: 2}
-      propertyPath: clipsPlayer.Array.data[1]
-      value: 
-      objectReference: {fileID: 8300000, guid: 07254361210ff7245b67a13a0e4a5620, type: 3}
-    - target: {fileID: 114487924824449510, guid: 8de11e2d70bf99640ac00616df8b8b8e,
-        type: 2}
-      propertyPath: clipsPlayer.Array.data[2]
-      value: 
-      objectReference: {fileID: 8300000, guid: 7a61c251bb910dc4b8d0df2e87b61a71, type: 3}
-    - target: {fileID: 114487924824449510, guid: 8de11e2d70bf99640ac00616df8b8b8e,
-        type: 2}
-      propertyPath: clipsPlayer.Array.data[3]
-      value: 
-      objectReference: {fileID: 8300000, guid: a207f14c828ed6f4a847ca67cba6cdc2, type: 3}
-    - target: {fileID: 114487924824449510, guid: 8de11e2d70bf99640ac00616df8b8b8e,
-        type: 2}
-      propertyPath: clipsPlayer.Array.data[4]
-      value: 
-      objectReference: {fileID: 8300000, guid: d225c8ec7bc732345857982ec728eab3, type: 3}
-    - target: {fileID: 114487924824449510, guid: 8de11e2d70bf99640ac00616df8b8b8e,
-        type: 2}
-      propertyPath: clipsPlayer.Array.data[5]
-      value: 
-      objectReference: {fileID: 8300000, guid: 164389c10ef6f994bb29af9e8f896a1f, type: 3}
-    - target: {fileID: 114487924824449510, guid: 8de11e2d70bf99640ac00616df8b8b8e,
-        type: 2}
-      propertyPath: clipsPlayer.Array.data[6]
-      value: 
-      objectReference: {fileID: 8300000, guid: 5b8396d5203d91f4b9bcea40e7750106, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8de11e2d70bf99640ac00616df8b8b8e, type: 2}
   m_IsPrefabParent: 0
@@ -2155,7 +2020,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 708668240}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.26, y: -3.361, z: 0}
+  m_LocalPosition: {x: 0.277, y: -3.408, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2943,7 +2808,7 @@ GameObject:
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1101063221
 Transform:
   m_ObjectHideFlags: 0

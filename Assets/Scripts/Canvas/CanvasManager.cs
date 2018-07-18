@@ -80,7 +80,7 @@ public class CanvasManager : MonoBehaviour {
     public void EndGame(int level)
     {
         GameManager.Instance.HighScoreUpdate(GameManager.Instance.Score);
-        finalTxt.text = string.Format("FINAL SCORE    {0}\nwith   {1} HAZARDS", GameManager.Instance.Score, level-1);
+        finalTxt.text = string.Format("FINAL SCORE    {0}\nwith   {1} HAZARDS", GameManager.Instance.Score, level);
         canvasEndGame.SetActive(true);
         StartCoroutine(PressEnterToContinue());
     }

@@ -66,7 +66,7 @@ public class EnemyPool : MonoBehaviour
     private void CreateEnemies(int type)
     {
         created = Instantiate(enemies[type]);
-        created.name = created.name.Replace("(Clone)", "");
+//        created.name = created.name.Replace("(Clone)", "");
         //created.GetComponent<SpriteRenderer>().color = Color.red;
         created.gameObject.SetActive(false);
         enemiesList.Add(created);
@@ -74,7 +74,6 @@ public class EnemyPool : MonoBehaviour
 
     public GameObject GetEnemy(int id)
     {
-        //if (enemiesList.Count == 0)
         if (enemiesList.Contains(enemies[id]))
         {
             CreateEnemies(id);
@@ -85,7 +84,8 @@ public class EnemyPool : MonoBehaviour
     private GameObject QuantityEnemies(int id)
     {
 
-        enemyToActivate = enemiesList.Find(i => i.name == enemies[id].name);
+        //enemyToActivate = enemiesList.Find(i => i.name == enemies[id].name);
+        enemyToActivate = enemiesList.Find(i => i.transform.GetChild(0).tag == enemies[id].transform.GetChild(0).tag);
         enemiesList.Remove(enemyToActivate);
         enemyToActivate.gameObject.SetActive(true);
 
