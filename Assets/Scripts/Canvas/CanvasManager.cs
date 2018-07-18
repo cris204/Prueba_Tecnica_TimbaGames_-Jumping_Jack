@@ -93,8 +93,9 @@ public class CanvasManager : MonoBehaviour {
         {
             nextLevel.text = string.Format("NEXT LEVEL -   {0}   HAZARDS", level);
         }
-        
-        storyTxt.text = Story.Instance.AssignStoryText(level-1);
+
+        storyTxt.text = Story.Instance.AssignStoryText(level - 1);
+
         StartCoroutine(ContinueNextLevel(level));
     }
 
@@ -127,10 +128,20 @@ public class CanvasManager : MonoBehaviour {
 
         }
         yield return new WaitForSeconds(2);
-        GameManager.Instance.FinishLevel = false;
-        GameManager.Instance.StartNewLevel(level);
+
+        if (level < 20)
+        {
+            GameManager.Instance.FinishLevel = false;
+            GameManager.Instance.StartNewLevel(level);
+
+            extraLife.SetActive(false);
+        }
+        else
+        {
+
+            EndGame(level);
+        }
         nextLevelContainer.SetActive(false);
-        extraLife.SetActive(false);
     }
 
     IEnumerator ShowText(int level)
@@ -154,7 +165,9 @@ public class CanvasManager : MonoBehaviour {
         StopAllCoroutines();
         endGame.SetActive(false);
         lifes.fillAmount = 1;
+        
         GameManager.Instance.ReStart();
+        scoreTxt.text = string.Format("SC{0}", GameManager.Instance.Score);
     }
 
     #endregion

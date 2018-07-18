@@ -75,7 +75,6 @@ public class EnemyPool : MonoBehaviour
     public GameObject GetEnemy(int id)
     {
         //if (enemiesList.Count == 0)
-        Debug.Log(enemiesList.Contains(enemies[id]));
         if (enemiesList.Contains(enemies[id]))
         {
             CreateEnemies(id);

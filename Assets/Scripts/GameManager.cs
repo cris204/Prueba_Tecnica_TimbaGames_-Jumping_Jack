@@ -88,21 +88,25 @@ public class GameManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+       // QualitySettings.vSyncCount = 0;
         SetRandom();
-        //StartNewLevel(Level);
+       // StartNewLevel(Level);
 
     }
 
     public void StartNewLevel(int level)
     {
+
         holesUnits = 0;//organize
         GetStartHoles();
         GetStartHoles();
-        if (level > 0)
+
+        for (int i = 0; i < Level; i++)
         {
             GetNewEnemy();
         }
         player.transform.localPosition = initialPosPlayer.localPosition;
+        PlayerController.Instance.StartLevel = true;
     }
 
     #region Enemies
@@ -162,6 +166,7 @@ public class GameManager : MonoBehaviour {
             holeToActive = HolePool.Instance.GetHoles(0, true);
 
             posToSpawnHole.x = Random.Range(-7.66f, 7.66f);
+            //posToSpawnHole.x = 0;
             posToSpawnHole.y = lanesPosition[Floor].transform.localPosition.y;
             holeToActive.transform.localPosition = posToSpawnHole;
             holeBehaviour = holeToActive.GetComponent<HoleBehaviour>();
@@ -251,6 +256,7 @@ public class GameManager : MonoBehaviour {
             CanvasManager.Instance.EndGame(Level);
             Score = 0;
             FinishLevel = true;
+            FinishGame = true;
 
         }
     }
@@ -265,7 +271,6 @@ public class GameManager : MonoBehaviour {
             CanvasManager.Instance.ExtraLife();
         }
         FinishLevel = true;
-       // player.transform.localPosition = initialPosPlayer.localPosition;
         CanvasManager.Instance.AssignTxtNextLevel(Level);
     }
 
@@ -274,12 +279,12 @@ public class GameManager : MonoBehaviour {
         FinishLevel = false;
         Level = 0;
         player.layer = 10;
-
         PlayerController.Instance.Stuned = false;
         PlayerController.Instance.RestartAnimations();
-        PlayerController.Instance.StartGame=true;
-
+        FinishGame = false;
         Lifes = 6;
+        enemiesUsed.Clear();
+        SetRandom();
         StartNewLevel(Level);
     }
 
@@ -303,7 +308,6 @@ public class GameManager : MonoBehaviour {
         }
         randomEnemy = Random.Range(0, enemiesUsed.Count);
         enemySelected = enemiesUsed[randomEnemy];
-        Debug.Log(enemiesUsed[randomEnemy]);
         enemiesUsed.RemoveAt(randomEnemy);
 
         return enemySelected;

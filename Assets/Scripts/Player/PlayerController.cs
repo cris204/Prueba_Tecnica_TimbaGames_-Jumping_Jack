@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     private bool stuned;
     [SerializeField]
-    private bool startGame;
+    private bool startLevel;
     [SerializeField]
     private Animator anim;
     [SerializeField]
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour {
 
     void Start()
     {
-        startGame = true;
+        startLevel = true;
         canHorizontalMove = true;
         canJump = true;
 
@@ -266,11 +266,11 @@ public class PlayerController : MonoBehaviour {
 
         if (other.CompareTag("Danger_Zone"))
         {
-            if (!GameManager.Instance.FinishLevel && !startGame)
+            if (!GameManager.Instance.FinishLevel && !startLevel)
             {
                 GameManager.Instance.LessLifes();    
             }
-            startGame = false;
+            startLevel = false;
         }
 
         if (other.gameObject.CompareTag("Enemy"))
@@ -346,16 +346,16 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    public bool StartGame
+    public bool StartLevel
     {
         get
         {
-            return startGame;
+            return startLevel;
         }
 
         set
         {
-            startGame = value;
+            startLevel = value;
         }
     }
 

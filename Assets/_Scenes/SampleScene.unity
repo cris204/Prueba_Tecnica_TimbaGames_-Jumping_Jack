@@ -1350,7 +1350,7 @@ MonoBehaviour:
   lifes: 6
   score: 0
   highScore: 0
-  level: 1
+  level: 0
   lanesPosition:
   - {fileID: 1630443119}
   - {fileID: 1941965218}
@@ -1424,8 +1424,8 @@ MonoBehaviour:
   - {fileID: 1472065101811580, guid: 491dc25bf68605247bc1ed75d92d99e2, type: 2}
   - {fileID: 1798005749278236, guid: ea5ffa291bc72314e8ff909cb6e7a061, type: 2}
   - {fileID: 1476935550943780, guid: 3bb17c12f4199b74ebfce68e9846816a, type: 2}
-  size: 30
-  sizePerEnemy: 3
+  size: 40
+  sizePerEnemy: 4
   typeOfEnemies: 0
   enemiesList: []
   enemyToActivate: {fileID: 0}
@@ -1886,16 +1886,6 @@ Prefab:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 61987631905486370, guid: 7c79670af07f9b4439e5afe0208689db,
-        type: 2}
-      propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 61987631905486370, guid: 7c79670af07f9b4439e5afe0208689db,
-        type: 2}
-      propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 0.56
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7c79670af07f9b4439e5afe0208689db, type: 2}
   m_IsPrefabParent: 0
@@ -1966,7 +1956,7 @@ GameObject:
   m_Layer: 10
   m_Name: Initial pos player
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7422848464349959988, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1977,7 +1967,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 708668240}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.26, y: -3.45, z: 0}
+  m_LocalPosition: {x: 0.26, y: -3.361, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

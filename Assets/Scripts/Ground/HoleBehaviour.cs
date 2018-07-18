@@ -12,7 +12,8 @@ public class HoleBehaviour : MonoBehaviour {
     private int floor;
     [SerializeField]
     private bool initialHole;
-
+    [SerializeField]
+    private bool onHole;
 
     void Awake () {
 

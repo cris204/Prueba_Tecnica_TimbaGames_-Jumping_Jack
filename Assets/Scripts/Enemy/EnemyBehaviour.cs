@@ -26,7 +26,7 @@ public class EnemyBehaviour : MonoBehaviour {
 
     private void Update()
     {
-        if (GameManager.Instance.FinishGame)
+        if (GameManager.Instance.FinishLevel)
         {
             EnemyPool.Instance.DisableEnemy(this.gameObject);
         }
@@ -47,11 +47,6 @@ public class EnemyBehaviour : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other)
     {
-       /* if (GameManager.Instance.FinishLevel)
-        {
-            EnemyPool.Instance.DisableEnemy(this.gameObject);
-        }*/
-
         if (other.CompareTag("Left_Border"))
         {
             GameManager.Instance.GetEnemy(Floor, id);
