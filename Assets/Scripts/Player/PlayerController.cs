@@ -53,12 +53,17 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     private bool isJumping;
     [SerializeField]
-    private LayerMask layer;  
+    private LayerMask layer;
 
+    [Header("Sound")]
+    [SerializeField]
+    private AudioClip[] clipsPlayer;
+    private AudioSource audioPlayer;
 
 
     [Header("Collision")]
-    public bool isOnAir;
+    [SerializeField]
+    private bool isOnAir;
     private BoxCollider2D playerCollider;
 
     [Header("Borders")]
@@ -69,6 +74,7 @@ public class PlayerController : MonoBehaviour {
 
     void Awake()
     {
+        audioPlayer = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<BoxCollider2D>();
         anim = GetComponent<Animator>();
@@ -114,6 +120,7 @@ public class PlayerController : MonoBehaviour {
             speedVector.y = 0;
             rb.velocity = speedVector;
             anim.SetFloat("Xspeed", Mathf.Abs(speedVector.x));
+            AssignAudio(0);
             if (speedVector.x > 0)
             {
                 playerSprite.flipX = false;
@@ -146,6 +153,7 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetButtonDown(jumpInput) && canJump && !stuned && !GameManager.Instance.FinishLevel)
         {
+            AssignAudio(1);
             isJumping = true;
             anim.SetBool("jump", true);
             GameManager.Instance.ChangeTimeScale(0.5f);
@@ -224,6 +232,16 @@ public class PlayerController : MonoBehaviour {
 
     }
 
+    public void AssignAudio(int index,bool loop=false)
+    {
+        audioPlayer.clip=clipsPlayer[index];
+        if (!audioPlayer.isPlaying)
+        {
+            audioPlayer.loop = loop;
+            audioPlayer.Play();
+        }
+    }
+
 
     #region OnTrigger
 
@@ -241,6 +259,7 @@ public class PlayerController : MonoBehaviour {
         {
             GameManager.Instance.LevelUp();
             rb.velocity = Vector3.zero;
+            AssignAudio(6);
         }
 
         if (other.CompareTag("Hole"))
@@ -248,6 +267,7 @@ public class PlayerController : MonoBehaviour {
             gameObject.layer = 11;
             if (!isOnAir)
             {
+                AssignAudio(4,true);
                 canHorizontalMove = false;
                 canJump = false;
                 isOnAir = true;
@@ -272,13 +292,19 @@ public class PlayerController : MonoBehaviour {
             {
                 GameManager.Instance.LessLifes();    
             }
+            if (GameManager.Instance.FinishGame)
+            {
+                StopAllCoroutines();
+                audioPlayer.Stop();
+                PlayerController.Instance.AssignAudio(5);
+            }
             startLevel = false;
         }
 
         if (other.gameObject.CompareTag("Enemy"))
         {
             StunByEnemy();
-
+            AssignAudio(2);
         }
     }
 
@@ -294,7 +320,6 @@ public class PlayerController : MonoBehaviour {
     {
         if (other.CompareTag("Hole"))
         {
-            playerCollider.isTrigger = false;
             gameObject.layer = 10;
             GameManager.Instance.ChangeTimeScale(1f);
         }
@@ -323,10 +348,12 @@ public class PlayerController : MonoBehaviour {
     IEnumerator StunedTime(float time)
     {
         yield return new WaitForSeconds(0.35f);
+        AssignAudio(3,true);
         anim.SetBool("fall_Down", false);
         anim.SetBool("stuned", true);
         yield return new WaitForSeconds(time);
         anim.SetBool("stuned", false);
+        audioPlayer.Stop();
         yield return new WaitForSeconds(0.15f);
         stuned = false;
     }

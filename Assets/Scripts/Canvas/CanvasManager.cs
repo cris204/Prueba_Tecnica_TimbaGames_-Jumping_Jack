@@ -23,6 +23,8 @@ public class CanvasManager : MonoBehaviour {
     [SerializeField]
     public Text storyTxt;
     [SerializeField]
+    private GameObject canvasNextLevel;
+    [SerializeField]
     private GameObject nextLevelContainer;
     [SerializeField]
     private Image lifes;
@@ -34,13 +36,14 @@ public class CanvasManager : MonoBehaviour {
     [SerializeField]
     private bool continueWithGame;
     [SerializeField]
-    private GameObject endGame;
+    private GameObject canvasEndGame;
     [SerializeField]
     private Text finalTxt;
     [SerializeField]
     private GameObject newHighScore;
+
     [SerializeField]
-    private GameObject introCanvas;
+    private GameObject canvasIntro;
 
     void Awake () {
         if (instance == null)
@@ -76,22 +79,30 @@ public class CanvasManager : MonoBehaviour {
 
     public void EndGame(int level)
     {
-        finalTxt.text = string.Format("FINAL SCORE    {0}\nwith   {1} HAZARDS", GameManager.Instance.Score, level);
-        endGame.SetActive(true);
+        GameManager.Instance.HighScoreUpdate(GameManager.Instance.Score);
+        finalTxt.text = string.Format("FINAL SCORE    {0}\nwith   {1} HAZARDS", GameManager.Instance.Score, level-1);
+        canvasEndGame.SetActive(true);
         StartCoroutine(PressEnterToContinue());
     }
 
     public void AssignTxtNextLevel(int level)
     {
         continueWithGame = false;
-        nextLevelContainer.SetActive(true);
-        if (level < 2)
+        canvasNextLevel.SetActive(true);
+        if (level <= 20)
         {
-            nextLevel.text = string.Format("NEXT LEVEL -   {0}   HAZARD", level);
+            if (level < 2)
+            {
+                nextLevel.text = string.Format("NEXT LEVEL -   {0}   HAZARD", level);
+            }
+            else
+            {
+                nextLevel.text = string.Format("NEXT LEVEL -   {0}   HAZARDS", level);
+            }
         }
         else
         {
-            nextLevel.text = string.Format("NEXT LEVEL -   {0}   HAZARDS", level);
+            nextLevelContainer.SetActive(false);
         }
 
         storyTxt.text = Story.Instance.AssignStoryText(level - 1);
@@ -113,7 +124,7 @@ public class CanvasManager : MonoBehaviour {
     public void StartWithGame()
     {
         GameManager.Instance.FinishLevel = false;
-        introCanvas.SetActive(false);
+        canvasIntro.SetActive(false);
         GameManager.Instance.StartNewLevel(0);
     }
 
@@ -139,9 +150,10 @@ public class CanvasManager : MonoBehaviour {
         }
         else
         {
+
             EndGame(level);
         }
-        nextLevelContainer.SetActive(false);
+        canvasNextLevel.SetActive(false);
     }
 
     IEnumerator ShowText(int level)
@@ -161,13 +173,14 @@ public class CanvasManager : MonoBehaviour {
         {
             yield return null;
         }
-
+        nextLevelContainer.SetActive(true);
         StopAllCoroutines();
-        endGame.SetActive(false);
+        canvasEndGame.SetActive(false);
         lifes.fillAmount = 0.666f;
-        
+        newHighScore.SetActive(false);
         GameManager.Instance.ReStart();
-        scoreTxt.text = string.Format("SC{0}", GameManager.Instance.Score);
+
+
     }
 
     #endregion

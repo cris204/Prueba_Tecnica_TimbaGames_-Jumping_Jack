@@ -271,11 +271,15 @@ public class GameManager : MonoBehaviour {
             CanvasManager.Instance.ExtraLife();
         }
         FinishLevel = true;
+
+        PlayerController.Instance.RestartAnimations();
         CanvasManager.Instance.AssignTxtNextLevel(Level);
     }
 
     public void ReStart()
     {
+        Score = 0;
+        CanvasManager.Instance.AssignHighScore();
         FinishLevel = false;
         Level = 0;
         player.layer = 10;
@@ -286,6 +290,7 @@ public class GameManager : MonoBehaviour {
         enemiesUsed.Clear();
         SetRandom();
         StartNewLevel(Level);
+        CanvasManager.Instance.AssignHighScore();
     }
 
 
