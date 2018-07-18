@@ -21,12 +21,12 @@ public class EnemyBehaviour : MonoBehaviour {
     }
     private void OnEnable()
     {
-        speedVector = Vector2.right * HorizontalSpeed;
+        speedVector = Vector2.right * horizontalSpeed;
     }
 
     private void Update()
     {
-        if (GameManager.Instance.FinishLevel)
+       if (GameManager.Instance.FinishGame)
         {
             EnemyPool.Instance.DisableEnemy(this.gameObject);
         }
@@ -49,9 +49,13 @@ public class EnemyBehaviour : MonoBehaviour {
     {
         if (other.CompareTag("Left_Border"))
         {
-            GameManager.Instance.GetEnemy(Floor, id);
+            GameManager.Instance.GetEnemy(floor, id);
         }
-
+        if (other.CompareTag("Enemy"))
+        {
+            EnemyPool.Instance.DisableEnemy(this.gameObject);
+            GameManager.Instance.RespawnEnemy(id);
+        }
     }
 
 

@@ -219,7 +219,7 @@ MonoBehaviour:
   startLevel: 0
   anim: {fileID: 0}
   playerSprite: {fileID: 0}
-  speed: 210
+  speed: 205
   canHorizontalMove: 0
   horizontalInput: Horizontal
   jumpInput: Jump
@@ -230,7 +230,7 @@ MonoBehaviour:
   isJumping: 0
   layer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 262400
   clipsPlayer:
   - {fileID: 8300000, guid: 820bad45db2ed0143a9323347135d66b, type: 3}
   - {fileID: 8300000, guid: 07254361210ff7245b67a13a0e4a5620, type: 3}

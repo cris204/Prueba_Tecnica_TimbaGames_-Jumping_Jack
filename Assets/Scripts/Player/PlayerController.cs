@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour {
         }
 
         h = Input.GetAxis(horizontalInput);
-
+        anim.SetFloat("Xspeed", Mathf.Abs(h));
 
     }
 
@@ -127,7 +127,6 @@ public class PlayerController : MonoBehaviour {
             speedVector.x = speed * h * Time.deltaTime;
             speedVector.y = 0;
             rb.velocity = speedVector;
-            anim.SetFloat("Xspeed", Mathf.Abs(speedVector.x));
             AssignAudio(0);
             if (speedVector.x > 0)
             {
@@ -137,7 +136,6 @@ public class PlayerController : MonoBehaviour {
             {
                 playerSprite.flipX = true;
             }
-
         }
     }
 
@@ -168,7 +166,6 @@ public class PlayerController : MonoBehaviour {
             canJump = false;
             canHorizontalMove = false;
             speedVector.x = 0;
-            anim.SetFloat("Xspeed", Mathf.Abs(speedVector.x));
             speedVector.y = jumpSpeed * Time.deltaTime;
             rb.velocity = speedVector;
         }
@@ -179,7 +176,7 @@ public class PlayerController : MonoBehaviour {
     {
         stuned = true;
         rb.velocity = Vector3.zero;
-
+        StopAllCoroutines();
         if (isOnAir)
         {
 
@@ -197,6 +194,7 @@ public class PlayerController : MonoBehaviour {
 
     void StunByEnemy()
     {
+        StopAllCoroutines();
         GameManager.Instance.ChangeBGColorStunByEnemy(Color.cyan);
         stuned = true;
         rb.velocity = Vector3.zero;
@@ -209,6 +207,7 @@ public class PlayerController : MonoBehaviour {
 
     void NormalStun()
     {
+        StopAllCoroutines();
         GameManager.Instance.ChangeBGColorNormalStun(Color.white);
         stuned = true;
         rb.velocity = Vector3.zero;
@@ -232,7 +231,10 @@ public class PlayerController : MonoBehaviour {
 
     public void RestartAnimations()
     {
+        gameObject.layer = 10;
+        Debug.Log(gameObject.layer);
         speedVector = Vector3.zero;
+        stuned = false;
         StopCoroutine("StunedTime");
         anim.SetBool("jump", false);
         anim.SetBool("fall_Down", false);
@@ -268,6 +270,8 @@ public class PlayerController : MonoBehaviour {
         {
             GameManager.Instance.LevelUp();
             rb.velocity = Vector3.zero;
+            stuned = false;
+            
             AssignAudio(6);
         }
 
@@ -356,18 +360,24 @@ public class PlayerController : MonoBehaviour {
     #region Coroutines
     IEnumerator StunedTime(float time)
     {
-        yield return new WaitForSeconds(0.35f);
         if (!GameManager.Instance.FinishLevel)
         {
+            yield return new WaitForSeconds(0.35f);
             AssignAudio(3, true);
+            anim.SetBool("fall_Down", false);
+            anim.SetBool("stuned", true);
+            yield return new WaitForSeconds(time);
+            anim.SetBool("stuned", false);
+            audioPlayer.Stop();
+            yield return new WaitForSeconds(0.15f);
+            stuned = false;
         }
-        anim.SetBool("fall_Down", false);
-        anim.SetBool("stuned", true);
-        yield return new WaitForSeconds(time);
-        anim.SetBool("stuned", false);
-        audioPlayer.Stop();
-        yield return new WaitForSeconds(0.15f);
-        stuned = false;
+        else
+        {
+            anim.SetBool("stuned", false);
+            stuned = false;
+            yield return null;
+        }
     }
 
     #endregion

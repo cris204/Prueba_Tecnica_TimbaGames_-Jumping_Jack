@@ -40,7 +40,7 @@ public class CanvasManager : MonoBehaviour {
     [SerializeField]
     private Text finalTxt;
     [SerializeField]
-    private GameObject newHighScore;
+    private GameObject highScoreContainer;
 
     [SerializeField]
     private GameObject canvasIntro;
@@ -54,7 +54,6 @@ public class CanvasManager : MonoBehaviour {
         {
             Destroy(this.gameObject);
         }
-      //  DontDestroyOnLoad(this.gameObject);
     }
 
     private void Start()
@@ -66,15 +65,18 @@ public class CanvasManager : MonoBehaviour {
 
     public void AssignScore()
     {
-
+        Debug.Log("S");
         scoreTxt.text = string.Format("SC{0}", GameManager.Instance.Score);
     }
 
-    public void AssignHighScore()
+    public void AssignHighScore(bool newHighScore=true)
     {
 
         highScoreTxt.text = string.Format("HI{0}", GameManager.Instance.HighScore);
-        newHighScore.SetActive(true);
+        if (newHighScore)
+        {
+            highScoreContainer.SetActive(true);
+        }
     }
 
     public void EndGame(int level)
@@ -82,6 +84,7 @@ public class CanvasManager : MonoBehaviour {
         GameManager.Instance.HighScoreUpdate(GameManager.Instance.Score);
         finalTxt.text = string.Format("FINAL SCORE    {0}\nwith   {1} HAZARDS", GameManager.Instance.Score, level);
         canvasEndGame.SetActive(true);
+        GameManager.Instance.FinishGame = true;
         StartCoroutine(PressEnterToContinue());
     }
 
@@ -174,10 +177,10 @@ public class CanvasManager : MonoBehaviour {
             yield return null;
         }
         nextLevelContainer.SetActive(true);
-        StopAllCoroutines();
+        highScoreContainer.SetActive(false);
         canvasEndGame.SetActive(false);
         lifes.fillAmount = 0.666f;
-        newHighScore.SetActive(false);
+
         GameManager.Instance.ReStart();
 
 

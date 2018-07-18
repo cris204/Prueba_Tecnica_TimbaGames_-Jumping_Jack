@@ -78,10 +78,9 @@ public class GameManager : MonoBehaviour {
             Destroy(this.gameObject);
         }
 
-        Floor = Random.Range(0, lanesPosition.Length);
-        FloorEnemy = Random.Range(0, lanesPosition.Length);
+        floor = Random.Range(0, lanesPosition.Length);
+        floorEnemy = Random.Range(0, lanesPosition.Length);
 
-        // DontDestroyOnLoad(this.gameObject);
     }
 
 
@@ -90,7 +89,6 @@ public class GameManager : MonoBehaviour {
     void Start () {
         QualitySettings.vSyncCount = 0;
         SetRandom();
-       // StartNewLevel(Level);
 
     }
 
@@ -100,14 +98,10 @@ public class GameManager : MonoBehaviour {
         holesUnits = 0;//organize
         GetStartHoles();
         GetStartHoles();
-
-        for (int i = 0; i < Level; i++)
+        if (level != 0)
         {
             GetNewEnemy();
         }
-        PlayerController.Instance.RestartAnimations();
-        player.transform.localPosition = initialPosPlayer.localPosition;
-        PlayerController.Instance.StartLevel = true;
     }
 
     #region Enemies
@@ -115,10 +109,9 @@ public class GameManager : MonoBehaviour {
     public void GetNewEnemy()//organize at random 
     {
         posToSpawn.x = Random.Range(-7.66f, 7.66f);
-        FloorEnemy = Random.Range(0, lanesPosition.Length);
-        posToSpawn.y = lanesPosition[FloorEnemy].transform.localPosition.y + 0.4f;
+        floorEnemy = Random.Range(0, lanesPosition.Length);
+        posToSpawn.y = lanesPosition[floorEnemy].transform.localPosition.y + 0.4f;
         enemyToActive = EnemyPool.Instance.GetEnemy(randomNum());
-       // enemyToActive = EnemyPool.Instance.GetEnemy(5);
         enemyToActive.transform.localPosition = posToSpawn;
         enemyBehaviour = enemyToActive.GetComponent<EnemyBehaviour>();
         enemyBehaviour.Floor = FloorEnemy;
@@ -138,7 +131,17 @@ public class GameManager : MonoBehaviour {
         posToSpawn.x = 7.353f;
         posToSpawn.y = lanesPosition[enemyBehaviour.Floor].transform.localPosition.y + 0.4f;
         enemyToActive.transform.localPosition = posToSpawn;
+    }
 
+    public void RespawnEnemy(int id)
+    {
+        enemyToActive = EnemyPool.Instance.GetEnemy(id);
+        posToSpawn.x = Random.Range(-7.66f, 7.66f);
+        floorEnemy = Random.Range(0, lanesPosition.Length);
+        posToSpawn.y = lanesPosition[floorEnemy].transform.localPosition.y + 0.4f;
+        enemyToActive.transform.localPosition = posToSpawn;
+        enemyBehaviour = enemyToActive.GetComponent<EnemyBehaviour>();
+        enemyBehaviour.Floor = FloorEnemy;
     }
 
     #endregion
@@ -150,10 +153,10 @@ public class GameManager : MonoBehaviour {
         holeToActive = HolePool.Instance.GetHoles(initialSpeed, false);
         initialSpeed *= -1;
         posToSpawnHole.x = Random.Range(-7.66f, 7.66f);
-        posToSpawnHole.y = lanesPosition[Floor].transform.localPosition.y;
+        posToSpawnHole.y = lanesPosition[floor].transform.localPosition.y;
         holeToActive.transform.localPosition = posToSpawnHole;
         holeBehaviour = holeToActive.GetComponent<HoleBehaviour>();
-        holeBehaviour.Floor = Floor;
+        holeBehaviour.Floor = floor;
         holesUnits++;
 
     }
@@ -163,11 +166,9 @@ public class GameManager : MonoBehaviour {
         if (holesUnits < 8)
         {
 
-            Floor = Random.Range(0, lanesPosition.Length);
+            floor = Random.Range(0, lanesPosition.Length);
             holeToActive = HolePool.Instance.GetHoles(0, true);
-
             posToSpawnHole.x = Random.Range(-7.66f, 7.66f);
-            //posToSpawnHole.x = 0;
             posToSpawnHole.y = lanesPosition[Floor].transform.localPosition.y;
             holeToActive.transform.localPosition = posToSpawnHole;
             holeBehaviour = holeToActive.GetComponent<HoleBehaviour>();
@@ -256,41 +257,47 @@ public class GameManager : MonoBehaviour {
             HighScoreUpdate(Score);
             CanvasManager.Instance.EndGame(Level);
             Score = 0;
-            FinishLevel = true;
-            FinishGame = true;
+            finishLevel = true;
+            finishGame = true;
 
         }
     }
 
     public void LevelUp()
     {
+
         player.layer = 10;
-        Level += 1;
-        if(Level==6|| Level == 11|| Level == 16)
+        level += 1;
+        if(level==6|| level == 11|| level == 16)
         {
-            Lifes++;
+            lifes++;
             CanvasManager.Instance.ExtraLife();
         }
-        FinishLevel = true;
-
+        finishLevel = true;
         PlayerController.Instance.RestartAnimations();
         CanvasManager.Instance.AssignTxtNextLevel(Level);
+        PlayerController.Instance.StartLevel = true;
+        player.transform.localPosition = initialPosPlayer.localPosition;
     }
 
     public void ReStart()
     {
-        Score = 0;
-        CanvasManager.Instance.AssignHighScore();
-        FinishLevel = false;
-        Level = 0;
+        PlayerController.Instance.StartLevel = true;
+        player.transform.localPosition = initialPosPlayer.localPosition;
+        PlayerController.Instance.RestartAnimations();
+        score = 0;
+        CanvasManager.Instance.AssignHighScore(false);
+        CanvasManager.Instance.AssignScore();
+        finishLevel = false;
+        level = 0;
         player.layer = 10;
         PlayerController.Instance.Stuned = false;
-        FinishGame = false;
-        Lifes = 6;
+        finishGame = false;
+        lifes = 6;
         enemiesUsed.Clear();
         SetRandom();
         StartNewLevel(Level);
-        CanvasManager.Instance.AssignHighScore();
+
     }
 
 
