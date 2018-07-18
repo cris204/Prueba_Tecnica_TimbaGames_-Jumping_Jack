@@ -23,7 +23,7 @@ public class HoleBehaviour : MonoBehaviour {
 
     private void OnEnable()
     {
-        speedVector = Vector2.right * HorizontalSpeed;
+        speedVector = Vector2.right * horizontalSpeed;
     }
 
     private void Update()
@@ -58,14 +58,14 @@ public class HoleBehaviour : MonoBehaviour {
         {
             if (other.CompareTag("Right_Border"))
             {
-                GameManager.Instance.GetHole(HorizontalSpeed,floor);
+                GameManager.Instance.GetHole(horizontalSpeed,floor);
             }
         }
         else
         {
             if (other.CompareTag("Left_Border"))
             {
-                GameManager.Instance.GetHole(HorizontalSpeed, floor);
+                GameManager.Instance.GetHole(horizontalSpeed, floor);
             }
         }
     }
@@ -75,7 +75,7 @@ public class HoleBehaviour : MonoBehaviour {
     {
 
 
-        if (HorizontalSpeed > 0)
+        if (horizontalSpeed > 0)
         {
             if (other.CompareTag("Right_Border"))
             {
